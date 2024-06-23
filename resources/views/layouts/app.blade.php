@@ -14,6 +14,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta name="author" content="Seksi Pengembangan Aplikasi Bidang E-Government Dinkominfo Banjarnegara" />
     <link rel="icon" type="image/x-icon" href="{{ asset('dist/img/favicon.png') }}" />
     @livewireStyles
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -76,11 +81,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/admin/perkara') }}"
-                                class="{{ request()->routeIs('admin.perkara') ? 'nav-link active' : 'nav-link' }}">
+                            <a href="{{ url('/admin/putusan') }}"
+                                class="{{ request()->routeIs('admin.putusan') ? 'nav-link active' : 'nav-link' }}">
                                 <i class="nav-icon fas fa-file"></i>
                                 <p>
-                                    Perkara
+                                    Putusan
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/admin/barangbukti') }}"
+                                class="{{ request()->routeIs('admin.barangbukti') ? 'nav-link active' : 'nav-link' }}">
+                                <i class="nav-icon fas fa-truck"></i>
+                                <p>
+                                    Barang Bukti
                                 </p>
                             </a>
                         </li>

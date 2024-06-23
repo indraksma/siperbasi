@@ -23,23 +23,53 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-6 col-12">
+                    <div class="col-md-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-primary">
+                            <div class="inner">
+                                <h3>{{ $penyitaan }}</h3>
+
+                                <p>Penetapan Penyitaan</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-briefcase"></i>
+                            </div>
+                            <a href="{{ url('admin/penyitaan') }}" class="small-box-footer">More info <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
                         <!-- small box -->
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>{{ $perkara }}</h3>
+                                <h3>{{ $putusan }}</h3>
 
-                                <p>Jumlah Perkara</p>
+                                <p>Putusan Pengadilan</p>
                             </div>
                             <div class="icon">
-                                <i class="ion ion-folder"></i>
+                                <i class="ion ion-clipboard"></i>
                             </div>
-                            <a href="{{ url('admin/perkara') }}" class="small-box-footer">More info <i
+                            <a href="{{ url('admin/putusan') }}" class="small-box-footer">More info <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3>{{ $barangbukti }}</h3>
+
+                                <p>Barang Bukti</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-cube"></i>
+                            </div>
+                            <a href="{{ url('admin/barangbukti') }}" class="small-box-footer">More info <i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->
-                    <div class="col-md-6 col-12">
+                    <div class="col-md-3 col-6">
                         <!-- small box -->
                         <div class="small-box bg-success">
                             <div class="inner">

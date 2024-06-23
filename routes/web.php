@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Livewire\Admin\AddPenyitaan;
+use App\Http\Livewire\Admin\BarangBukti;
 use App\Http\Livewire\Admin\Home;
 use App\Http\Livewire\Admin\Perkara;
 use App\Http\Livewire\Admin\Pengumuman;
 use App\Http\Livewire\Admin\Penyitaan;
+use App\Http\Livewire\Admin\Putusan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/home', Home::class)->name('admin.home');
     Route::get('/admin/penyitaan', Penyitaan::class)->name('admin.penyitaan');
     Route::get('/admin/addpenyitaan', AddPenyitaan::class)->name('admin.addpenyitaan');
-    Route::get('/admin/perkara', Perkara::class)->name('admin.perkara');
+    Route::get('/admin/barangbukti', BarangBukti::class)->name('admin.barangbukti');
+    Route::get('/admin/putusan', Putusan::class)->name('admin.putusan');
     Route::get('/admin/pengumuman', Pengumuman::class)->name('admin.pengumuman');
 });

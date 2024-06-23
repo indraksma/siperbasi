@@ -6,7 +6,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Tambah Putusan Penyitaan</h1>
+                        <h1 class="m-0">Tambah Penetapan Penyitaan</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -53,46 +53,69 @@
                             </div>
                             <div class="form-group">
                                 <label for="namaTersangka">Nama Tersangka</label>
-                                <textarea wire:model.lazy="tersangka" class="form-control" id="namaTersangka" rows="2" required></textarea>
+                                <input type="text" wire:model.lazy="tersangka" class="form-control"
+                                    id="namaTersangka" rows="2" required>
                             </div>
-                            @foreach ($inputs as $key => $input)
+                            {{-- <hr />
+                            <div class="form-group">
+                                <label for="input_0_bb">Barang Bukti 1</label>
+                                <textarea wire:model.lazy="nama_barang.0" class="form-control" id="input_0_bb" rows="2" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="upload_0_{{ $iteration }}">Foto Barang Bukti 1
+                                    (Optional)
+                                    <small>(JPG/JPEG/PNG.
+                                        Max:2MB)</small></label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" wire:model="file_photo.0"
+                                            id="upload_0_{{ $iteration }}">
+                                    </div>
+                                </div>
+                                @error('file_photo.0')
+                                    <div class="alert alert-danger">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div> --}}
+                            @foreach ($inputs as $key => $value)
                                 <hr />
                                 <div class="form-group">
-                                    <label for="input_{{ $key }}_bb">Barang Bukti {{ $key + 1 }}</label>
-                                    @if ($key > 0)
-                                        <button class="btn btn-sm btn-danger text-right" type="button"
-                                            wire:click="removeInput({{ $key }})">Hapus BB
-                                            {{ $key + 1 }}</button>
-                                    @endif
-                                    <textarea wire:model.lazy="inputs.{{ $key }}.nama_barang" class="form-control"
-                                        id="input_{{ $key }}_bb" rows="2" required></textarea>
+                                    <label for="input_{{ $key }}_bb">Barang Bukti {{ $value }}</label>
+                                    <button class="btn btn-sm btn-danger text-right" type="button"
+                                        wire:click="removeInput({{ $key }})">Hapus BB
+                                        {{ $value }}</button>
+                                    <textarea wire:model.lazy="nama_barang.{{ $key }}" class="form-control" id="input_{{ $key }}_bb"
+                                        rows="2" required></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="upload_{{ $key }}_{{ $iteration }}">Foto Barang Bukti
-                                        {{ $key + 1 }}
+                                        {{ $value }}
                                         (Optional)
                                         <small>(JPG/JPEG/PNG.
                                             Max:2MB)</small></label>
                                     <div class="input-group">
                                         <div class="custom-file">
-                                            <input type="file" wire:model="inputs.{{ $key }}.file_photo"
+                                            <input type="file" wire:model="file_photo.{{ $key }}"
                                                 id="upload_{{ $key }}_{{ $iteration }}">
                                         </div>
                                     </div>
-                                    @error('inputs.{{ $key }}.file_photo')
+                                    @error('file_photo.{{ $key }}')
                                         <div class="alert alert-danger">
                                             {{ $message }}
                                         </div>
                                     @enderror
                                 </div>
                             @endforeach
-                            <button type="button" class="btn btn-success" wire:click="addInput()">Tambah Barang
+                            <button type="button" class="btn btn-success"
+                                wire:click="addInput({{ $i }})">Tambah Barang
                                 Bukti</button>
                         </div>
                         <div class="card-footer">
-                            <button type="button" class="btn btn-secondary" wire:click="resetInputFields()"
-                                data-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            @if ($nama_barang != null)
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            @endif
+                            <a href="{{ route('admin.penyitaan') }}" class="btn btn-secondary float-right">Batal</a>
                         </div>
                     </form>
                 </div>

@@ -1,0 +1,63 @@
+<table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>No Penetapan Penyitaan</th>
+                                        <th>No Putusan Pengadilan</th>
+                                        <th>Nama Barang</th>
+                                        <th>Foto Barang</th>
+                                        <th>Amar Putusan</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if ($barangbukti->isNotEmpty())
+                                        @foreach ($barangbukti as $data)
+                                            <tr>
+                                                <td>{{ $data->penyitaan->no_penyitaan }}</td>
+                                                <td>
+                                                    @if ($data->putusan)
+                                                        {{ $data->putusan->no_putusan }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
+                                                <td>{{ $data->nama_barang }}</td>
+                                                <td>
+                                                    @if ($data->foto)
+                                                        <img src="{{ url('storage/bb/' . $data->foto) }}"
+                                                            class="img-fluid my-2" style="max-width: 150px;">
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($data->status == 1)
+                                                        <span class="badge badge-primary">Dikembalikan kepada yang
+                                                            berhak</span>
+                                                    @elseif($data->status == 2)
+                                                        <span class="badge badge-danger">Dimusnahkan</span>
+                                                    @elseif($data->status == 3)
+                                                        <span class="badge badge-success">Dirampas untuk negara
+                                                            (Lelang)
+                                                        </span>
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-warning btn-sm mb-1"
+                                                        wire:click="edit({{ $data->id }})" data-toggle="modal"
+                                                        data-target="#bbModal">Edit</button>
+                                                    <button type="button" wire:click="deleteId({{ $data->id }})"
+                                                        data-toggle="modal" data-target="#deleteModal"
+                                                        class="btn btn-danger btn-sm mb-1">Hapus</button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="6" class="text-center">Belum ada data</td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>

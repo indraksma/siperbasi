@@ -9,4 +9,9 @@ class Penyitaan extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function putusan()
+    {
+        return $this->hasOne(Putusan::class);
+    }
 }

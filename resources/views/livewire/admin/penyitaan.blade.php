@@ -2,7 +2,7 @@
 @push('footscripts')
     <script>
         document.addEventListener('closeModal', (event) => {
-            $('#sitaModal').modal('hide');
+            $('#putusanModal').modal('hide');
         });
     </script>
 @endpush
@@ -13,7 +13,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Putusan Penyitaan</h1>
+                        <h1 class="m-0">Penetapan Penyitaan</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -54,8 +54,9 @@
                                     @if ($sita->isNotEmpty())
                                         @foreach ($sita as $data)
                                             <tr>
+                                                <td>{{ \Carbon\Carbon::parse($data->tanggal_penyitaan)->format('d-m-Y') }}
+                                                </td>
                                                 <td>{{ $data->no_penyitaan }}</td>
-                                                <td>{{ $data->tanggal_penyitaan }}</td>
                                                 <td>{{ $data->pengadilan }}</td>
                                                 <td>{{ $data->penyidik }}</td>
                                                 <td>{{ $data->penuntut }}</td>
@@ -66,9 +67,13 @@
                                                         class="btn btn-sm btn-primary">Detail</button>
                                                 </td>
                                                 <td>
-                                                    <button type="button" class="btn btn-warning btn-sm mb-1"
-                                                        wire:click="edit({{ $data->id }})" data-toggle="modal"
-                                                        data-target="#sitaModal">Edit</button>
+                                                    @if (!$data->putusan)
+                                                        <button type="button" class="btn btn-info btn-sm mb-1"
+                                                            wire:click="putusan({{ $data->id }})"
+                                                            data-toggle="modal" data-target="#putusanModal"><i
+                                                                class="fas fa-plus"></i>
+                                                            Putusan</button>
+                                                    @endif
                                                     <button type="button" wire:click="deleteId({{ $data->id }})"
                                                         data-toggle="modal" data-target="#deleteModal"
                                                         class="btn btn-danger btn-sm mb-1">Hapus</button>
@@ -90,6 +95,142 @@
                         @endif
                     </div>
                 </div><!-- /.card -->
+            </div>
+        </div>
+    </div>
+    <!-- Modal Detail Perkara -->
+    <div wire:ignore.self class="modal fade" id="modalBB" data-backdrop="static" tabindex="-1" role="dialog"
+        aria-labelledby="modalBBLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalBBLabel">Barang Bukti</h5>
+                    <button type="button" class="close" wire:click="resetInputFields()" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @if ($barang_bukti)
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Barang</th>
+                                <th>Foto</th>
+                            </tr>
+                            @php
+                                $no = 1;
+                            @endphp
+                            @foreach ($barang_bukti as $bb)
+                                <tr>
+                                    <td>{{ $no }}</td>
+                                    <td>{{ $bb->nama_barang }}</td>
+                                    <td>
+                                        @if ($bb->foto)
+                                            <img src="{{ url('storage/bb/' . $bb->foto) }}" class="img-fluid my-2"
+                                                style="max-width: 300px;">
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                </tr>
+                                @php
+                                    $no++;
+                                @endphp
+                            @endforeach
+                        </table>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Tambah Putusan -->
+    <div wire:ignore.self class="modal fade" id="putusanModal" data-backdrop="static" tabindex="-1" role="dialog"
+        aria-labelledby="putusanModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="putusanModalLabel">Tambah Putusan Pengadilan</h5>
+                    <button type="button" class="close" wire:click="resetInputFields()" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" wire:submit.prevent="storePutusan()">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="nomorPutusan">Nomor Putusan</label>
+                            <input type="text" wire:model.lazy="no_putusan" class="form-control" id="nomorPutusan"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tanggalPutusan">Tanggal</label>
+                            <input type="date" wire:model="tanggal_putusan" class="form-control" id="tanggalPutusan"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pengadilan">Pengadilan</label>
+                            <input type="text" wire:model.lazy="pengadilan" class="form-control" id="pengadilan"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="penuntut">Penuntut</label>
+                            <input type="text" wire:model.lazy="penuntut" class="form-control" id="penuntut"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="namaTerpidana">Nama Terpidana</label>
+                            <input type="text" wire:model.lazy="terpidana" class="form-control"
+                                id="namaTerpidana" required>
+                        </div>
+                        <hr />
+                        <h5>Barang Bukti</h5>
+                        @if ($barang_bukti)
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Barang</th>
+                                    <th>Foto</th>
+                                    <th>Putusan</th>
+                                </tr>
+                                @php
+                                    $no = 1;
+                                @endphp
+                                @foreach ($barang_bukti as $key => $bb)
+                                    <tr>
+                                        <td>{{ $no }}</td>
+                                        <td>{{ $bb->nama_barang }}</td>
+                                        <td>
+                                            @if ($bb->foto)
+                                                <img src="{{ url('storage/bb/' . $bb->foto) }}"
+                                                    class="img-fluid my-2" style="max-width: 200px;">
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <select class="form-control"
+                                                wire:model="status_putusan.{{ $key }}" required>
+                                                <option value="">-- Pilih --</option>
+                                                <option value="1">Dikembalikan</option>
+                                                <option value="2">Dimusnahkan</option>
+                                                <option value="3">Dirampas untuk negara (Lelang)</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    @php
+                                        $no++;
+                                    @endphp
+                                @endforeach
+                            </table>
+                        @endif
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="button" wire:click="resetInputFields()" class="btn btn-secondary float-right"
+                            data-dismiss="modal">Batal</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
