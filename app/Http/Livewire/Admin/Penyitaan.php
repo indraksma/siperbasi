@@ -9,6 +9,7 @@ use App\Models\Putusan;
 use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -48,9 +49,10 @@ class Penyitaan extends Component
 
     public function destroy()
     {
+        $bb = BarangBukti::where('penyitaan_id', $this->delete_id)->get();
+
         DB::beginTransaction();
         try {
-            $bb = BarangBukti::where('penyitaan_id', $this->delete_id)->get();
             if ($bb->isNotEmpty()) {
                 BarangBukti::where('penyitaan_id', $this->delete_id)->delete();
             }
@@ -60,6 +62,13 @@ class Penyitaan extends Component
             }
             ModelsPenyitaan::destroy($this->delete_id);
             DB::commit();
+            if ($bb->isNotEmpty()) {
+                foreach ($bb as $data) {
+                    if ($data->foto != NULL) {
+                        Storage::disk('public')->delete('bb/' . $data->foto);
+                    }
+                }
+            }
         } catch (Exception $e) {
             DB::rollBack();
 

@@ -6,6 +6,7 @@ use App\Models\Pengumuman as ModelsPengumuman;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -16,7 +17,12 @@ class Pengumuman extends Component
     use LivewireAlert, WithPagination, WithFileUploads;
     protected $paginationTheme = 'bootstrap';
     public $iteration = 0;
-    public $tanggal_lelang, $tanggal, $harga_limit, $uang_jaminan, $nama_barang, $keterangan, $photo, $file_photo, $lelang_id, $delete_id;
+    public $tanggal, $deskripsi, $file_dokumen, $lelang_id, $delete_id, $dokumen;
+
+    public function mount()
+    {
+        $this->tanggal = date('Y-m-d');
+    }
 
     public function render()
     {
@@ -27,40 +33,37 @@ class Pengumuman extends Component
         ]);
     }
 
+    private function uploadDokumen($file)
+    {
+        $filename = 'll_' . date('YmdHis');
+        $uploadedfilename = $filename . '.' . $file->getClientOriginalExtension();
+        $file->storeAs('public/lelang', $uploadedfilename);
+        $this->iteration = $this->iteration + 1;
+        return $uploadedfilename;
+    }
+
     public function store()
     {
-
-        if ($this->file_photo) {
-            $this->validate(['file_photo' => 'required|image|max:2048']);
-
-            $filename = 'll_' . date('YmdHis');
-            $uploadedfilename = $filename . '.' . $this->file_photo->getClientOriginalExtension();
-            $this->file_photo->storeAs('public/lelang', $uploadedfilename);
-            $this->iteration = $this->iteration + 1;
-        } else {
-            if ($this->lelang_id) {
-                $uploadedfilename = $this->photo;
-            }
-        }
         if ($this->lelang_id) {
-            $lelang = ModelsPengumuman::where('id', $this->lelang_id)->first();
-            $tanggal = $lelang->tanggal;
+            if ($this->file_dokumen) {
+                $this->validate(['file_dokumen' => 'required|mimes:pdf|max:2048']);
+                $uploadedfilename = $this->uploadDokumen($this->file_dokumen);
+            } else {
+                $lelang = ModelsPengumuman::where('id', $this->lelang_id)->first();
+                $uploadedfilename = $lelang->file;
+            }
         } else {
-            $tanggal = date('Y-m-d');
+            $this->validate(['file_dokumen' => 'required|mimes:pdf|max:2048']);
+            $uploadedfilename = $this->uploadDokumen($this->file_dokumen);
         }
 
         DB::beginTransaction();
 
         try {
             $lelang = ModelsPengumuman::updateOrCreate(['id' => $this->lelang_id], [
-                'tanggal'      => $tanggal,
-                'tanggal_lelang'   => $this->tanggal_lelang,
-                'nama_barang'   => $this->nama_barang,
-                'keterangan'   => $this->keterangan,
-                'harga_limit'   => $this->harga_limit,
-                'uang_jaminan'   => $this->uang_jaminan,
-                'photo'   => $uploadedfilename,
-                'status'   => 0,
+                'tanggal'      => $this->tanggal,
+                'deskripsi'   => $this->deskripsi,
+                'file'   => $uploadedfilename,
             ]);
             DB::commit();
 
@@ -71,6 +74,7 @@ class Pengumuman extends Component
             ]);
         } catch (Exception $e) {
             DB::rollBack();
+            dd($e);
             $this->alert('error', 'Data gagal ditambahkan!', [
                 'position' => 'center',
                 'timer' => 3000,
@@ -83,15 +87,8 @@ class Pengumuman extends Component
 
     public function resetInputFields()
     {
-        $this->reset(['lelang_id', 'delete_id', 'tanggal_lelang', 'tanggal', 'nama_barang', 'keterangan', 'file_photo', 'photo', 'harga_limit', 'uang_jaminan']);
+        $this->reset(['lelang_id', 'delete_id', 'deskripsi', 'file_dokumen', 'dokumen']);
         $this->resetErrorBag();
-    }
-
-    public function photo($id)
-    {
-        $lelang = ModelsPengumuman::where('id', $id)->first();
-        $this->lelang_id = $id;
-        $this->photo = $lelang->photo;
     }
 
     public function edit($id)
@@ -99,12 +96,8 @@ class Pengumuman extends Component
         $lelang = ModelsPengumuman::where('id', $id)->first();
         $this->lelang_id = $id;
         $this->tanggal = $lelang->tanggal;
-        $this->tanggal_lelang = $lelang->tanggal_lelang;
-        $this->nama_barang = $lelang->nama_barang;
-        $this->keterangan = $lelang->keterangan;
-        $this->uang_jaminan = $lelang->uang_jaminan;
-        $this->photo = $lelang->photo;
-        $this->harga_limit = $lelang->harga_limit;
+        $this->deskripsi = $lelang->deskripsi;
+        $this->dokumen = $lelang->file;
     }
 
     public function deleteId($id)
@@ -114,6 +107,10 @@ class Pengumuman extends Component
 
     public function destroy()
     {
+        $lelang = ModelsPengumuman::where('id', $this->delete_id)->first();
+
+        Storage::disk('public')->delete('lelang/' . $lelang->file);
+
         ModelsPengumuman::destroy($this->delete_id);
 
         $this->alert('success', 'Data berhasil dihapus.', [

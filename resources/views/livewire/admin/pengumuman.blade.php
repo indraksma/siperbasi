@@ -41,13 +41,9 @@
                             <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Tanggal Pengumuman</th>
-                                        <th>Nama Barang</th>
-                                        <th>Keterangan</th>
-                                        <th>Foto</th>
-                                        <th>Tanggal Lelang</th>
-                                        <th>Harga Limit</th>
-                                        <th>Uang Jaminan</th>
+                                        <th>Tanggal</th>
+                                        <th>Deskripsi</th>
+                                        <th>Dokumen</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -56,16 +52,11 @@
                                         @foreach ($lelang as $data)
                                             <tr>
                                                 <td>{{ $data->tanggal }}</td>
-                                                <td>{{ $data->nama_barang }}</td>
-                                                <td>{{ $data->keterangan }}</td>
+                                                <td>{{ $data->deskripsi }}</td>
                                                 <td>
-                                                    <button type="button" data-toggle="modal" data-target="#modalPhoto"
-                                                        wire:click="photo({{ $data->id }})"
-                                                        class="btn btn-sm btn-primary">Lihat</button>
+                                                    <a href="{{ url('/storage/lelang/' . $data->file) }}"
+                                                        target="_blank" class="btn btn-sm btn-primary">Unduh</a>
                                                 </td>
-                                                <td>{{ $data->tanggal_lelang }}</td>
-                                                <td>{{ $data->harga_limit }}</td>
-                                                <td>{{ $data->uang_jaminan }}</td>
                                                 <td>
                                                     <button type="button" class="btn btn-warning btn-sm mb-1"
                                                         wire:click="edit({{ $data->id }})" data-toggle="modal"
@@ -78,7 +69,7 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="8" class="text-center">Belum ada data</td>
+                                            <td colspan="4" class="text-center">Belum ada data</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -109,46 +100,24 @@
                 <form method="POST" enctype="multipart/form-data" wire:submit.prevent="store()">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="tanggalLelang">Tanggal Lelang</label>
-                            <input type="date" wire:model="tanggal_lelang" class="form-control" id="tanggalLelang">
+                            <label for="tanggalPengumuman">Tanggal</label>
+                            <input type="date" wire:model.defer="tanggal" class="form-control"
+                                id="tanggalPengumuman">
                         </div>
                         <div class="form-group">
-                            <label for="hargaLimit">Harga Limit</label>
-                            <input type="number" wire:model.lazy="harga_limit" class="form-control" id="hargaLimit">
+                            <label for="deskripsi">Deskripsi</label>
+                            <textarea wire:model.defer="deskripsi" class="form-control" id="deskripsi" rows="6"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="uangJaminan">Uang Jaminan</label>
-                            <input type="number" wire:model.lazy="uang_jaminan" class="form-control" id="uangJaminan">
-                        </div>
-                        <div class="form-group">
-                            <label for="namaBarang">Nama Barang</label>
-                            <textarea wire:model.lazy="nama_barang" class="form-control" id="namaBarang" rows="3"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="keterangan">Keterangan</label>
-                            <textarea wire:model.lazy="keterangan" class="form-control" id="keterangan" rows="5"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="upload{{ $iteration }}">Foto Barang<small>(JPG/JPEG/PNG.
-                                    Max:2MB)</small></label>
-                            @if ($file_photo)
+                            <label for="upload{{ $iteration }}">Dokumen <small>(PDF. Max:2MB)</small></label>
+                            @if ($dokumen)
                                 <br />
-                                <img src="{{ $file_photo->temporaryUrl() }}" class="img-fluid my-2"
-                                    style="max-width: 200px;">
-                            @elseif($photo)
-                                <br />
-                                <img src="{{ asset('storage/lelang/' . $photo) }}" class="img-fluid my-2"
-                                    style="max-width: 200px;">
+                                <a href="{{ url('/storage/lelang/' . $dokumen) }}" target="_blank"
+                                    class="btn btn-sm btn-primary mb-2"><i class="fas fa-download"></i> Unduh</a>
                             @endif
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    <input type="file" wire:model="file_photo" class="custom-file-input"
-                                        id="upload{{ $iteration }}">
-                                    <label class="custom-file-label" for="upload{{ $iteration }}">Choose
-                                        file</label>
-                                </div>
-                            </div>
-                            @error('file_photo')
+                            <input type="file" wire:model="file_dokumen" class="form-control"
+                                id="upload{{ $iteration }}" accept=".pdf" />
+                            @error('file_dokumen')
                                 <div class="alert alert-danger">
                                     {{ $message }}
                                 </div>
@@ -161,37 +130,6 @@
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-    <!-- Modal Photo -->
-    <div wire:ignore.self class="modal fade" id="modalPhoto" data-backdrop="static" tabindex="-1" role="dialog"
-        aria-labelledby="modalPhotoLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalPhotoLabel">Photo</h5>
-                    <button type="button" class="close" wire:click="resetInputFields()" data-dismiss="modal"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    @if ($lelang_id)
-                        <table class="table table-bordered">
-                            <tr>
-                                <td>
-                                    @if ($photo)
-                                        <img src="{{ url('storage/lelang/' . $photo) }}" class="img-fluid my-2"
-                                            style="max-width: 100%;">
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                            </tr>
-                        </table>
-                    @endif
-                </div>
             </div>
         </div>
     </div>

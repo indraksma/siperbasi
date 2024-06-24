@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin;
 
 use App\Models\BarangBukti as ModelsBarangBukti;
 use App\Models\Penyitaan;
+use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -30,6 +31,11 @@ class BarangBukti extends Component
 
     public function destroy()
     {
+        $bb = ModelsBarangBukti::where('id', $this->delete_id)->first();
+        if ($bb->foto != NULL) {
+            Storage::disk('public')->delete('bb/' . $bb->foto);
+        }
+
         ModelsBarangBukti::destroy($this->delete_id);
         $this->alert('success', 'Data berhasil dihapus.', [
             'position' => 'center',
