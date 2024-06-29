@@ -19,6 +19,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             display: none !important;
         }
     </style>
+    @stack('headscripts')
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -104,6 +105,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <i class="nav-icon fas fa-bullhorn"></i>
                                 <p>
                                     Pengumuman Lelang
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/admin/survey') }}"
+                                class="{{ request()->routeIs('admin.survey') ? 'nav-link active' : 'nav-link' }}">
+                                <i class="nav-icon fas fa-chart-pie"></i>
+                                <p>
+                                    Survey Kepuasan
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/admin/setting') }}"
+                                class="{{ request()->routeIs('admin.setting') ? 'nav-link active' : 'nav-link' }}">
+                                <i class="nav-icon fas fa-cog"></i>
+                                <p>
+                                    Setting
                                 </p>
                             </a>
                         </li>
