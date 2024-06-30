@@ -195,6 +195,10 @@
                                     <td><span id="namaBarang"></span></td>
                                 </tr>
                                 <tr>
+                                    <th>Keterangan</th>
+                                    <td><span id="keterangan"></span></td>
+                                </tr>
+                                <tr>
                                     <th>Amar Putusan</th>
                                     <td><span id="amarPutusan"></span></td>
                                 </tr>
@@ -227,6 +231,7 @@
                 // console.log(data);
                 $('#tanggalMasuk').html(data.penyitaan.tanggal_penyitaan);
                 $('#namaBarang').html(data.nama_barang);
+                $('#keterangan').html(data.keterangan);
                 $('#namaTersangka').html(data.penyitaan.tersangka);
                 if (data.status == 0) {
                     $('#amarPutusan').attr('class', 'badge bg-secondary');

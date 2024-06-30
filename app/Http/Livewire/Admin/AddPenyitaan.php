@@ -16,7 +16,7 @@ class AddPenyitaan extends Component
 {
     use LivewireAlert, WithPagination, WithFileUploads;
     protected $paginationTheme = 'bootstrap';
-    public $no_penyitaan, $tersangka, $penyidik, $pengadilan, $penuntut, $tanggal_penyitaan, $nama_barang, $file_photo;
+    public $no_penyitaan, $tersangka, $penyidik, $pengadilan, $penuntut, $tanggal_penyitaan, $nama_barang, $file_photo, $keterangan;
     public $iteration = 0;
     public $inputs = [];
     public $i = 0;
@@ -48,7 +48,7 @@ class AddPenyitaan extends Component
 
     public function resetInputFields()
     {
-        $this->reset(['no_penyitaan', 'tanggal_penyitaan', 'tersangka', 'penyidik', 'penuntut', 'pengadilan', 'penyitaan_id', 'nama_barang', 'file_photo']);
+        $this->reset(['no_penyitaan', 'tanggal_penyitaan', 'tersangka', 'penyidik', 'penuntut', 'pengadilan', 'penyitaan_id', 'nama_barang', 'file_photo', 'keterangan']);
     }
 
     public function store()
@@ -82,6 +82,7 @@ class AddPenyitaan extends Component
                 BarangBukti::create([
                     'penyitaan_id' => $sita->id,
                     'nama_barang' => $input,
+                    'keterangan' => $this->keterangan[$key],
                     'foto' => $uploadedfilename[$key],
                     'status' => 0,
                 ]);

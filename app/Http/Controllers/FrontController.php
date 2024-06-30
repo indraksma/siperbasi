@@ -110,7 +110,7 @@ class FrontController extends Controller
             'survey' => $survey,
         ]);
         if ($store) {
-            return redirect()->back()->with('success', 'Survey berhasil dikirim. Terimakasih atas feedback yang telah Anda berikan.');
+            return redirect()->back()->with('success', 'Survey berhasil dikirim. Terimakasih atas ulasan yang telah Anda berikan.');
         }
     }
 }

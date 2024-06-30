@@ -4,6 +4,9 @@
         document.addEventListener('closeModal', (event) => {
             $('#bbModal').modal('hide');
         });
+        document.addEventListener('closeModalEksekusi', (event) => {
+            $('#eksekusiModal').modal('hide');
+        });
     </script>
 @endpush
 <div>
@@ -37,9 +40,9 @@
                                     data-toggle="modal" data-target="#bbModal">Tambah</button>
                             </div>
                         </div>
-                        <div class="table-responsive">
-                            <livewire:admin.bb-table />
-                        </div>
+                        {{-- <div class="table-responsive"> --}}
+                        <livewire:admin.bb-table />
+                        {{-- </div> --}}
                         @if ($barangbukti->isNotEmpty())
                             <div class="mt-2">
                                 {{ $barangbukti->links() }}
@@ -49,7 +52,49 @@
                 </div><!-- /.card -->
             </div>
         </div>
-    </div><!-- Modal Tambah Barang Bukti -->
+    </div>
+    <!-- Modal Detail Eksekusi -->
+    <div wire:ignore.self class="modal fade" id="detailEksekusi" data-backdrop="static" tabindex="-1" role="dialog"
+        aria-labelledby="detailEksekusiLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailEksekusiLabel">Eksekusi Barang Bukti</h5>
+                    <button type="button" class="close" wire:click="resetInputFields()" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @if ($eksekusi)
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Tanggal Eksekusi</th>
+                                <th>Nama Barang</th>
+                                <th>Keterangan</th>
+                                <th>Foto</th>
+                            </tr>
+                            <tr>
+                                <td>{{ \Carbon\Carbon::parse($eksekusi->tanggal_eksekusi)->isoFormat('D MMMM Y') }}
+                                </td>
+                                <td>{{ $eksekusi->nama_barang }}</td>
+                                <td>{{ $eksekusi->ket_eksekusi }}</td>
+                                <td>
+                                    @if ($eksekusi->foto_eksekusi)
+                                        <img src="{{ url('storage/eksekusi/' . $eksekusi->foto_eksekusi) }}"
+                                            class="img-fluid my-2" style="max-width: 300px;">
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                            </tr>
+                        </table>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Tambah Barang Bukti -->
     <div wire:ignore.self class="modal fade" id="bbModal" data-backdrop="static" tabindex="-1" role="dialog"
         aria-labelledby="bbModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -65,7 +110,7 @@
                     <div class="modal-body">
                         @if ($tambah === true)
                             <div class="form-group">
-                                <label for="noPenyitaan">No Penetapan Penyitaan {{ $tambah }}</label>
+                                <label for="noPenyitaan">No Penetapan Penyitaan</label>
                                 <div class="input-group">
                                     <input wire:model.lazy="no_penyitaan"
                                         class="form-control {{ $not_found === false ? 'is-valid' : ($not_found === true ? 'is-invalid' : '') }}"
@@ -79,7 +124,12 @@
                         @endif
                         <div class="form-group">
                             <label for="input_0_bb">Nama Barang</label>
-                            <textarea wire:model.lazy="nama_barang" class="form-control" id="input_0_bb" rows="2" required></textarea>
+                            <input type="text" wire:model.lazy="nama_barang" class="form-control" id="input_0_bb"
+                                required />
+                        </div>
+                        <div class="form-group">
+                            <label for="keterangan_0_bb">Keterangan</label>
+                            <textarea wire:model.lazy="keterangan" class="form-control" id="keterangan_0_bb" rows="3" required></textarea>
                         </div>
                         <div class="form-group">
                             <label for="upload_{{ $iteration }}">Foto Barang Bukti
@@ -134,6 +184,56 @@
                             <button type="button" wire:click="resetInputFields()" data-dismiss="modal"
                                 class="btn btn-secondary float-right">Batal</button>
                         @endif
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Tambah Eksekusi -->
+    <div wire:ignore.self class="modal fade" id="eksekusiModal" data-backdrop="static" tabindex="-1"
+        role="dialog" aria-labelledby="eksekusiModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eksekusiModalLabel">Eksekusi Barang Bukti</h5>
+                    <button type="button" class="close" wire:click="resetInputFields()" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" wire:submit.prevent="storeEksekusi()">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="tglEksekusi">Tanggal Eksekusi</label>
+                            <input type="date" wire:model.lazy="tanggal_eksekusi" class="form-control"
+                                id="tglEksekusi" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="ketEksekusi">Keterangan</label>
+                            <textarea wire:model.lazy="keterangan_eksekusi" class="form-control" id="ketEksekusi" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="exc_{{ $iteration }}">Foto Eksekusi
+                                (Optional)
+                                <small>(JPG/JPEG/PNG.
+                                    Max:2MB)</small></label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" accept=".jpg,.jpeg,.png" wire:model="file_eksekusi"
+                                        id="exc_{{ $iteration }}">
+                                </div>
+                            </div>
+                            @error('file_eksekusi')
+                                <div class="alert alert-danger">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="button" wire:click="resetInputFields()" data-dismiss="modal"
+                            class="btn btn-secondary float-right">Batal</button>
                     </div>
                 </form>
             </div>

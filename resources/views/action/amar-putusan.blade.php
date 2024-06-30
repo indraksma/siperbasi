@@ -10,3 +10,8 @@
 @else
     -
 @endif
+@if ($data->tanggal_eksekusi != null)
+    <button type="button" class="btn btn-sm btn-info mt-1" data-toggle="modal" data-target="#detailEksekusi"
+        wire:click="$emit('detailEksekusi',{{ $data->id }})"><i class="fas fa-eye"></i>
+        Eksekusi</button>
+@endif

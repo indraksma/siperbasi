@@ -3,6 +3,7 @@
 use App\Http\Controllers\FrontController;
 use App\Http\Livewire\Admin\AddPenyitaan;
 use App\Http\Livewire\Admin\BarangBukti;
+use App\Http\Livewire\Admin\Eksekusi;
 use App\Http\Livewire\Admin\Home;
 use App\Http\Livewire\Admin\Perkara;
 use App\Http\Livewire\Admin\Pengumuman;
@@ -41,6 +42,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/addpenyitaan', AddPenyitaan::class)->name('admin.addpenyitaan');
     Route::get('/admin/barangbukti', BarangBukti::class)->name('admin.barangbukti');
     Route::get('/admin/putusan', Putusan::class)->name('admin.putusan');
+    Route::get('/admin/eksekusi', Eksekusi::class)->name('admin.eksekusi');
     Route::get('/admin/pengumuman', Pengumuman::class)->name('admin.pengumuman');
     Route::get('/admin/survey', Survey::class)->name('admin.survey');
     Route::get('/admin/setting', Setting::class)->name('admin.setting');

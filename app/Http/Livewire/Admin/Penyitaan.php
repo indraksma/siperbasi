@@ -96,8 +96,10 @@ class Penyitaan extends Component
     public function putusan($id)
     {
         $barangbukti = BarangBukti::where('penyitaan_id', $id)->get();
+        $penyitaan = ModelsPenyitaan::where('id', $id)->first();
         $this->barang_bukti = $barangbukti;
         $this->penyitaan_id = $id;
+        $this->terpidana = $penyitaan->tersangka;
     }
 
     public function storePutusan()

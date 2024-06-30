@@ -14,11 +14,16 @@ class BarangBukti extends Component
 {
     use LivewireAlert, WithPagination, WithFileUploads;
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['edit' => 'edit', 'deleteId' => 'deleteId', 'tambahData' => 'tambahData'];
-    public $bb_id, $delete_id, $nama_barang, $file_photo, $foto, $no_penyitaan, $no_sita, $not_found, $no_putusan, $status_putusan;
+    protected $listeners = ['edit' => 'edit', 'deleteId' => 'deleteId', 'tambahData' => 'tambahData', 'eksekusi' => 'eksekusi', 'detailEksekusi' => 'detailEksekusi'];
+    public $bb_id, $delete_id, $nama_barang, $file_photo, $foto, $no_penyitaan, $no_sita, $not_found, $no_putusan, $status_putusan, $keterangan, $keterangan_eksekusi, $tanggal_eksekusi, $file_eksekusi, $eksekusi;
     public $tambah = FALSE;
     public $status = FALSE;
     public $iteration = 0;
+
+    public function mount()
+    {
+        $this->tanggal_eksekusi = date('Y-m-d');
+    }
 
     public function render()
     {
@@ -77,6 +82,7 @@ class BarangBukti extends Component
     {
         $bb = ModelsBarangBukti::where('id', $id)->first();
         $this->nama_barang = $bb->nama_barang;
+        $this->keterangan = $bb->keterangan;
         $this->foto = $bb->foto;
         $this->bb_id = $id;
         if ($bb->putusan_id != NULL) {
@@ -98,7 +104,8 @@ class BarangBukti extends Component
     {
         $this->tambah = FALSE;
         $this->status = FALSE;
-        $this->reset(['bb_id', 'delete_id', 'no_penyitaan', 'no_sita', 'nama_barang', 'file_photo', 'not_found', 'no_putusan', 'status_putusan', 'foto']);
+        $this->reset(['bb_id', 'delete_id', 'no_penyitaan', 'no_sita', 'nama_barang', 'file_photo', 'not_found', 'no_putusan', 'status_putusan', 'foto', 'keterangan', 'keterangan_eksekusi', 'file_eksekusi', 'tanggal_eksekusi', 'eksekusi']);
+        $this->tanggal_eksekusi = date('Y-m-d');
     }
 
     public function store()
@@ -115,6 +122,7 @@ class BarangBukti extends Component
             }
             $bb->update([
                 'nama_barang' => $this->nama_barang,
+                'keterangan' => $this->keterangan,
                 'foto' => $uploadedfilename,
                 'status' => $this->status_putusan,
             ]);
@@ -145,6 +153,7 @@ class BarangBukti extends Component
                 'penyitaan_id' => $penyitaan->id,
                 'putusan_id' => $putusan_id,
                 'nama_barang' => $this->nama_barang,
+                'keterangan' => $this->keterangan,
                 'foto' => $uploadedfilename,
                 'status' => $status,
             ]);
@@ -156,6 +165,45 @@ class BarangBukti extends Component
             ]);
         }
         $this->dispatchBrowserEvent('closeModal');
+
+        $this->resetInputFields();
+        $this->emit('refreshBbTable');
+    }
+
+    public function eksekusi($id)
+    {
+        $this->bb_id = $id;
+    }
+
+    public function detailEksekusi($id)
+    {
+        $this->eksekusi = ModelsBarangBukti::where('id', $id)->first();
+    }
+
+    public function storeEksekusi()
+    {
+        $bb = ModelsBarangBukti::where('id', $this->bb_id)->first();
+        if (isset($this->file_eksekusi)) {
+            $this->validate(['file_eksekusi' => 'required|image|max:2048']);
+            $filename = 'exc_' . date('YmdHis');
+            $uploadedfilename = $filename . '.' . $this->file_eksekusi->getClientOriginalExtension();
+            $this->file_eksekusi->storeAs('public/eksekusi', $uploadedfilename);
+        } else {
+            $uploadedfilename = $bb->foto;
+        }
+        $bb->update([
+            'tanggal_eksekusi' => $this->tanggal_eksekusi,
+            'ket_eksekusi' => $this->keterangan_eksekusi,
+            'foto_eksekusi' => $uploadedfilename,
+        ]);
+
+        $this->alert('success', 'Data berhasil ditambahkan.', [
+            'position' => 'center',
+            'timer' => 3000,
+            'toast' => true,
+        ]);
+
+        $this->dispatchBrowserEvent('closeModalEksekusi');
 
         $this->resetInputFields();
         $this->emit('refreshBbTable');

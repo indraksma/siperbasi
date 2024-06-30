@@ -18,4 +18,9 @@ class BarangBukti extends Model
     {
         return $this->belongsTo(Putusan::class);
     }
+
+    public function eksekusi()
+    {
+        return $this->hasOne(Eksekusi::class);
+    }
 }

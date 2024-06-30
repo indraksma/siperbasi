@@ -85,8 +85,14 @@
                                     <button class="btn btn-sm btn-danger text-right" type="button"
                                         wire:click="removeInput({{ $key }})">Hapus BB
                                         {{ $value }}</button>
-                                    <textarea wire:model.lazy="nama_barang.{{ $key }}" class="form-control" id="input_{{ $key }}_bb"
-                                        rows="2" required></textarea>
+                                    <input type="text" wire:model.lazy="nama_barang.{{ $key }}"
+                                        class="form-control" id="input_{{ $key }}_bb" required></input>
+                                </div>
+                                <div class="form-group">
+                                    <label for="keterangan_{{ $key }}_bb">Keterangan BB
+                                        {{ $value }}</label>
+                                    <textarea wire:model.lazy="keterangan.{{ $key }}" class="form-control" id="keterangan_{{ $key }}_bb"
+                                        rows="3" required></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="upload_{{ $key }}_{{ $iteration }}">Foto Barang Bukti

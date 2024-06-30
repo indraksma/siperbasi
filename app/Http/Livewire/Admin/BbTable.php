@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Admin;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\BarangBukti;
-use Rappasoft\LaravelLivewireTables\Views\Columns\ImageColumn;
+use Illuminate\Database\Eloquent\Builder;
 
 class BbTable extends DataTableComponent
 {
@@ -16,7 +16,12 @@ class BbTable extends DataTableComponent
     public function configure(): void
     {
         $this->setPrimaryKey('id');
-        $this->setAdditionalSelects(['barang_buktis.id', 'barang_buktis.foto', 'barang_buktis.status']);
+        $this->setAdditionalSelects(['barang_buktis.id', 'barang_buktis.foto', 'barang_buktis.status', 'barang_buktis.tanggal_eksekusi', 'barang_buktis.putusan_id']);
+    }
+
+    public function builder(): Builder
+    {
+        return BarangBukti::query()->with('eksekusi');
     }
 
     public function columns(): array
@@ -32,6 +37,9 @@ class BbTable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
             Column::make("Nama Barang", "nama_barang")
+                ->sortable()
+                ->searchable(),
+            Column::make("Keterangan", "keterangan")
                 ->sortable()
                 ->searchable(),
             Column::make('Foto Barang')

@@ -84,7 +84,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <li class="nav-item">
                             <a href="{{ url('/admin/putusan') }}"
                                 class="{{ request()->routeIs('admin.putusan') ? 'nav-link active' : 'nav-link' }}">
-                                <i class="nav-icon fas fa-file"></i>
+                                <i class="nav-icon fas fa-gavel"></i>
                                 <p>
                                     Putusan
                                 </p>
@@ -93,12 +93,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <li class="nav-item">
                             <a href="{{ url('/admin/barangbukti') }}"
                                 class="{{ request()->routeIs('admin.barangbukti') ? 'nav-link active' : 'nav-link' }}">
-                                <i class="nav-icon fas fa-truck"></i>
+                                <i class="nav-icon fas fa-fingerprint"></i>
                                 <p>
                                     Barang Bukti
                                 </p>
                             </a>
                         </li>
+                        {{-- <li class="nav-item">
+                            <a href="{{ url('/admin/eksekusi') }}"
+                                class="{{ request()->routeIs('admin.eksekusi') ? 'nav-link active' : 'nav-link' }}">
+                                <i class="nav-icon fas fa-share-square"></i>
+                                <p>
+                                    Eksekusi
+                                </p>
+                            </a>
+                        </li> --}}
                         <li class="nav-item">
                             <a href="{{ url('/admin/pengumuman') }}"
                                 class="{{ request()->routeIs('admin.pengumuman') ? 'nav-link active' : 'nav-link' }}">

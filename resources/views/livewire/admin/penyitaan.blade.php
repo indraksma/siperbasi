@@ -116,6 +116,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Barang</th>
+                                <th>Keterangan</th>
                                 <th>Foto</th>
                             </tr>
                             @php
@@ -125,6 +126,7 @@
                                 <tr>
                                     <td>{{ $no }}</td>
                                     <td>{{ $bb->nama_barang }}</td>
+                                    <td>{{ $bb->keterangan }}</td>
                                     <td>
                                         @if ($bb->foto)
                                             <img src="{{ url('storage/bb/' . $bb->foto) }}" class="img-fluid my-2"
@@ -181,7 +183,7 @@
                         <div class="form-group">
                             <label for="namaTerpidana">Nama Terpidana</label>
                             <input type="text" wire:model.lazy="terpidana" class="form-control"
-                                id="namaTerpidana" required>
+                                id="namaTerpidana" readonly>
                         </div>
                         <hr />
                         <h5>Barang Bukti</h5>
@@ -190,6 +192,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Barang</th>
+                                    <th>Keterangan</th>
                                     <th>Foto</th>
                                     <th>Putusan</th>
                                 </tr>
@@ -200,6 +203,7 @@
                                     <tr>
                                         <td>{{ $no }}</td>
                                         <td>{{ $bb->nama_barang }}</td>
+                                        <td>{{ $bb->keterangan }}</td>
                                         <td>
                                             @if ($bb->foto)
                                                 <img src="{{ url('storage/bb/' . $bb->foto) }}"
