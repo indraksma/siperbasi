@@ -202,13 +202,42 @@
                                     <th>Amar Putusan</th>
                                     <td><span id="amarPutusan"></span></td>
                                 </tr>
-                                <tr>
+                                <tr id="rowFoto1">
                                     <th colspan="2">Foto Barang</th>
                                 </tr>
-                                <tr>
+                                <tr id="rowFoto2">
                                     <td colspan="2"><img class="img-fluid" id="fotoBarang" /></td>
                                 </tr>
                             </table>
+                            <div id="eksekusi">
+                                <hr>
+                                <h5>Eksekusi</h5>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>Tanggal Eksekusi</th>
+                                        <td><span id="tanggalEksekusi"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Keterangan Eksekusi</th>
+                                        <td><span id="keteranganEksekusi"></span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div id="ambilBarang">
+                                <hr>
+                                <h5>Pengambilan Barang</h5>
+                                <p>Untuk melakukan pengambilan barang silahkan persiapkan beberapa syarat berikut :</p>
+                                <ol>
+                                    <li>Identitas Asli & Fotocopy (KTP/SIM)</li>
+                                    <li>Surat Kuasa Bermaterai (Apabila Diwakilkan)</li>
+                                    <li>Dokumen kepemilikan barang (Apabila Ada)</li>
+                                    <li>Formulir Pengambilan Barang Bukti (Unduh pada link dibawah ini)</li>
+                                </ol>
+                                <div class="text-center">
+                                    <a class="btn btn-sm btn-primary" href="{{ url('/form-pengambilan-bb.pdf') }}">Unduh
+                                        Form Pengambilan Barang Bukti</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -237,16 +266,41 @@
                     $('#amarPutusan').attr('class', 'badge bg-secondary');
                     $('#amarPutusan').html("-");
                 } else if (data.status == 1) {
+                    $('#ambilBarang').show();
                     $('#amarPutusan').attr('class', 'badge bg-primary text-white');
                     $('#amarPutusan').html('Dikembalikan kepada yang berhak');
                 } else if (data.status == 2) {
+                    $('#ambilBarang').hide();
                     $('#amarPutusan').attr('class', 'badge bg-danger');
                     $('#amarPutusan').html('Dimusnahkan');
                 } else if (data.status == 3) {
+                    $('#ambilBarang').hide();
                     $('#amarPutusan').attr('class', 'badge bg-success');
                     $('#amarPutusan').html('Dirampas untuk negara (Lelang)');
                 }
-                $('#fotoBarang').attr('src', '/storage/bb/' + data.foto);
+                if (data.foto != null) {
+                    $('#rowFoto1').show();
+                    $('#rowFoto2').show();
+                    $('#fotoBarang').show();
+                    $('#fotoBarang').attr('src', '/storage/bb/' + data.foto);
+                } else {
+                    $('#rowFoto1').hide();
+                    $('#rowFoto2').hide();
+                    $('#fotoBarang').hide();
+                }
+                if (data.tanggal_eksekusi != null) {
+                    $('#eksekusi').show();
+                    if (data.status == 1) {
+                        $('#ambilBarang').hide();
+                    }
+                    $('#tanggalEksekusi').html(data.tanggal_eksekusi);
+                    $('#keteranganEksekusi').html(data.ket_eksekusi);
+                } else {
+                    if (data.status == 1) {
+                        $('#ambilBarang').show();
+                    }
+                    $('#eksekusi').hide();
+                }
             })
         }
     </script>
