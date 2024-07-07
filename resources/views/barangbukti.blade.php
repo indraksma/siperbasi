@@ -263,6 +263,7 @@
                 $('#keterangan').html(data.keterangan);
                 $('#namaTersangka').html(data.penyitaan.tersangka);
                 if (data.status == 0) {
+                    $('#ambilBarang').hide();
                     $('#amarPutusan').attr('class', 'badge bg-secondary');
                     $('#amarPutusan').html("-");
                 } else if (data.status == 1) {
