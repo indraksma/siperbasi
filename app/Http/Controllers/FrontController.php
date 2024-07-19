@@ -47,7 +47,7 @@ class FrontController extends Controller
     public function getbarangbukti(Request $request)
     {
         if ($request->ajax()) {
-            $data = BarangBukti::latest()->with(['penyitaan', 'penyitaan.tersangka'])->get();
+            $data = BarangBukti::latest()->with(['penyitaan', 'penyitaans.tersangka'])->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
