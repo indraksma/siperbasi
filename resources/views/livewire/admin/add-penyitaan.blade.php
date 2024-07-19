@@ -52,7 +52,7 @@
                                     required>
                             </div>
                             <div class="form-group">
-                                <label for="namaTersangka">Nama Tersangka</label>
+                                <label for="namaTersangka">Nama Terdakwa</label>
                                 <input type="text" wire:model.lazy="tersangka" class="form-control"
                                     id="namaTersangka" rows="2" required>
                             </div>

@@ -45,7 +45,7 @@
                                         <th>Pengadilan</th>
                                         <th>Penyidik</th>
                                         <th>Penuntut Umum</th>
-                                        <th>Tersangka</th>
+                                        <th>Terdakwa</th>
                                         <th>Barang Sitaan</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -216,9 +216,17 @@
                                             <select class="form-control"
                                                 wire:model="status_putusan.{{ $key }}" required>
                                                 <option value="">-- Pilih --</option>
-                                                <option value="1">Dikembalikan</option>
-                                                <option value="2">Dimusnahkan</option>
-                                                <option value="3">Dirampas untuk negara (Lelang)</option>
+                                                <option value="1">Dikembalikan kepada yang berhak</option>
+                                                <option value="2">Dirampas untuk Dimusnahkan</option>
+                                                <option value="3">Dirampas untuk negara</option>
+                                                <option value="4">Dirampas untuk negara c.q. Kementerian / Lembaga
+                                                </option>
+                                                <option value="5">Dirampas untuk negara dan Diperhitungkan untuk
+                                                    Uang
+                                                    Pengganti</option>
+                                                <option value="8">Dipergunakan dalam Perkara Lain</option>
+                                                <option value="7">Terlampir dalam berkas</option>
+                                                <option value="6">Lainnya</option>
                                             </select>
                                         </td>
                                     </tr>

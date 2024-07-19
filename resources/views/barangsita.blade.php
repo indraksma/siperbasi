@@ -141,7 +141,7 @@
                                 <thead>
                                     <tr>
                                         <th>Nama Barang</th>
-                                        <th>Tersangka</th>
+                                        <th>Terdakwa</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -187,7 +187,7 @@
                                     <td><span id="tanggalMasuk"></span></td>
                                 </tr>
                                 <tr>
-                                    <th>Nama Tersangka</th>
+                                    <th>Nama Terdakwa</th>
                                     <td><span id="namaTersangka"></span></td>
                                 </tr>
                                 <tr>
@@ -202,13 +202,42 @@
                                     <th>Amar Putusan</th>
                                     <td><span id="amarPutusan"></span></td>
                                 </tr>
-                                <tr>
+                                <tr id="rowFoto1">
                                     <th colspan="2">Foto Barang</th>
                                 </tr>
-                                <tr>
+                                <tr id="rowFoto2">
                                     <td colspan="2"><img class="img-fluid" id="fotoBarang" /></td>
                                 </tr>
                             </table>
+                            <div id="eksekusi">
+                                <hr>
+                                <h5>Eksekusi</h5>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>Tanggal Eksekusi</th>
+                                        <td><span id="tanggalEksekusi"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Keterangan Eksekusi</th>
+                                        <td><span id="keteranganEksekusi"></span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div id="ambilBarang">
+                                <hr>
+                                <h5>Pengambilan Barang</h5>
+                                <p>Untuk melakukan pengambilan barang silahkan persiapkan beberapa syarat berikut :</p>
+                                <ol>
+                                    <li>Identitas Asli & Fotocopy (KTP/SIM)</li>
+                                    <li>Surat Kuasa Bermaterai (Apabila Diwakilkan)</li>
+                                    <li>Dokumen kepemilikan barang (Apabila Ada)</li>
+                                    <li>Formulir Pengambilan Barang Bukti (Unduh pada link dibawah ini)</li>
+                                </ol>
+                                <div class="text-center">
+                                    <a class="btn btn-sm btn-primary" href="{{ url('/form-pengambilan-bb.pdf') }}">Unduh
+                                        Form Pengambilan Barang Bukti</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -234,19 +263,65 @@
                 $('#keterangan').html(data.keterangan);
                 $('#namaTersangka').html(data.penyitaan.tersangka);
                 if (data.status == 0) {
+                    $('#ambilBarang').hide();
                     $('#amarPutusan').attr('class', 'badge bg-secondary');
                     $('#amarPutusan').html("-");
                 } else if (data.status == 1) {
+                    $('#ambilBarang').show();
                     $('#amarPutusan').attr('class', 'badge bg-primary text-white');
                     $('#amarPutusan').html('Dikembalikan kepada yang berhak');
                 } else if (data.status == 2) {
+                    $('#ambilBarang').hide();
                     $('#amarPutusan').attr('class', 'badge bg-danger');
-                    $('#amarPutusan').html('Dimusnahkan');
+                    $('#amarPutusan').html('Dirampas untuk Dimusnahkan');
                 } else if (data.status == 3) {
+                    $('#ambilBarang').hide();
                     $('#amarPutusan').attr('class', 'badge bg-success');
-                    $('#amarPutusan').html('Dirampas untuk negara (Lelang)');
+                    $('#amarPutusan').html('Dirampas untuk negara');
+                } else if (data.status == 4) {
+                    $('#ambilBarang').hide();
+                    $('#amarPutusan').attr('class', 'badge bg-success');
+                    $('#amarPutusan').html('Dirampas untuk Negara c.q. Kementerian / Lembaga');
+                } else if (data.status == 5) {
+                    $('#ambilBarang').hide();
+                    $('#amarPutusan').attr('class', 'badge bg-success');
+                    $('#amarPutusan').html('Dirampas untuk Negara dan Diperhitungkan untuk Uang Pengganti');
+                } else if (data.status == 6) {
+                    $('#ambilBarang').hide();
+                    $('#amarPutusan').attr('class', 'badge bg-info');
+                    $('#amarPutusan').html('Lainnya');
+                } else if (data.status == 7) {
+                    $('#ambilBarang').hide();
+                    $('#amarPutusan').attr('class', 'badge bg-warning');
+                    $('#amarPutusan').html('Terlampir dalam Berkas');
+                } else if (data.status == 8) {
+                    $('#ambilBarang').hide();
+                    $('#amarPutusan').attr('class', 'badge bg-warning');
+                    $('#amarPutusan').html('Dipergunakan dalam Perkara Lain');
                 }
-                $('#fotoBarang').attr('src', '/storage/bb/' + data.foto);
+                if (data.foto != null) {
+                    $('#rowFoto1').show();
+                    $('#rowFoto2').show();
+                    $('#fotoBarang').show();
+                    $('#fotoBarang').attr('src', '/storage/bb/' + data.foto);
+                } else {
+                    $('#rowFoto1').hide();
+                    $('#rowFoto2').hide();
+                    $('#fotoBarang').hide();
+                }
+                if (data.tanggal_eksekusi != null) {
+                    $('#eksekusi').show();
+                    if (data.status == 1) {
+                        $('#ambilBarang').hide();
+                    }
+                    $('#tanggalEksekusi').html(data.tanggal_eksekusi);
+                    $('#keteranganEksekusi').html(data.ket_eksekusi);
+                } else {
+                    if (data.status == 1) {
+                        $('#ambilBarang').show();
+                    }
+                    $('#eksekusi').hide();
+                }
             })
         }
     </script>
@@ -262,7 +337,7 @@
                         name: 'nama_barang'
                     },
                     {
-                        data: 'penyitaan.tersangka',
+                        data: 'tersangka',
                         name: 'tersangka'
                     },
                     {

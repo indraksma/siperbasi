@@ -273,11 +273,31 @@
                 } else if (data.status == 2) {
                     $('#ambilBarang').hide();
                     $('#amarPutusan').attr('class', 'badge bg-danger');
-                    $('#amarPutusan').html('Dimusnahkan');
+                    $('#amarPutusan').html('Dirampas untuk Dimusnahkan');
                 } else if (data.status == 3) {
                     $('#ambilBarang').hide();
                     $('#amarPutusan').attr('class', 'badge bg-success');
-                    $('#amarPutusan').html('Dirampas untuk negara (Lelang)');
+                    $('#amarPutusan').html('Dirampas untuk Negara');
+                } else if (data.status == 4) {
+                    $('#ambilBarang').hide();
+                    $('#amarPutusan').attr('class', 'badge bg-success');
+                    $('#amarPutusan').html('Dirampas untuk Negara c.q. Kementerian / Lembaga');
+                } else if (data.status == 5) {
+                    $('#ambilBarang').hide();
+                    $('#amarPutusan').attr('class', 'badge bg-success');
+                    $('#amarPutusan').html('Dirampas untuk Negara dan Diperhitungkan untuk Uang Pengganti');
+                } else if (data.status == 6) {
+                    $('#ambilBarang').hide();
+                    $('#amarPutusan').attr('class', 'badge bg-info');
+                    $('#amarPutusan').html('Lainnya');
+                } else if (data.status == 7) {
+                    $('#ambilBarang').hide();
+                    $('#amarPutusan').attr('class', 'badge bg-warning');
+                    $('#amarPutusan').html('Terlampir dalam Berkas');
+                } else if (data.status == 8) {
+                    $('#ambilBarang').hide();
+                    $('#amarPutusan').attr('class', 'badge bg-warning');
+                    $('#amarPutusan').html('Dipergunakan dalam Perkara Lain');
                 }
                 if (data.foto != null) {
                     $('#rowFoto1').show();
@@ -317,7 +337,7 @@
                         name: 'nama_barang'
                     },
                     {
-                        data: 'penyitaan.tersangka',
+                        data: 'tersangka',
                         name: 'tersangka'
                     },
                     {

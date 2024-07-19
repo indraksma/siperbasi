@@ -125,11 +125,32 @@
                                     </td>
                                     <td>
                                         @if ($bb->status == 1)
-                                            <span class="badge badge-primary">Dikembalikan kepada yang berhak</span>
+                                            <span class="badge badge-primary">Dikembalikan kepada yang
+                                                berhak</span>
                                         @elseif($bb->status == 2)
-                                            <span class="badge badge-danger">Dimusnahkan</span>
+                                            <span class="badge badge-danger">Dirampas untuk Dimusnahkan</span>
                                         @elseif($bb->status == 3)
-                                            <span class="badge badge-success">Dirampas untuk negara (Lelang)</span>
+                                            <span class="badge badge-success">Dirampas untuk negara
+                                            </span>
+                                        @elseif($bb->status == 4)
+                                            <span class="badge badge-success">Dirampas untuk negara c.q. Kementerian /
+                                                Lembaga
+                                            </span>
+                                        @elseif($bb->status == 5)
+                                            <span class="badge badge-success">Dirampas untuk negara dan Diperhitungkan
+                                                untuk Uang Pengganti
+                                            </span>
+                                        @elseif($bb->status == 6)
+                                            <span class="badge badge-info">Lainnya
+                                            </span>
+                                        @elseif($bb->status == 7)
+                                            <span class="badge badge-warning">Terlampir dalam berkas
+                                            </span>
+                                        @elseif($bb->status == 8)
+                                            <span class="badge badge-warning">Dipergunakan dalam Perkara Lain
+                                            </span>
+                                        @else
+                                            -
                                         @endif
                                     </td>
                                 </tr>
@@ -211,9 +232,17 @@
                                             <select class="form-control"
                                                 wire:model="status_putusan.{{ $key }}" required>
                                                 <option value="">-- Pilih --</option>
-                                                <option value="1">Dikembalikan</option>
-                                                <option value="2">Dimusnahkan</option>
-                                                <option value="3">Dirampas untuk negara (Lelang)</option>
+                                                <option value="1">Dikembalikan kepada yang berhak</option>
+                                                <option value="2">Dirampas untuk Dimusnahkan</option>
+                                                <option value="3">Dirampas untuk negara</option>
+                                                <option value="4">Dirampas untuk negara c.q. Kementerian / Lembaga
+                                                </option>
+                                                <option value="5">Dirampas untuk negara dan Diperhitungkan untuk
+                                                    Uang
+                                                    Pengganti</option>
+                                                <option value="8">Dipergunakan dalam Perkara Lain</option>
+                                                <option value="7">Terlampir dalam berkas</option>
+                                                <option value="6">Lainnya</option>
                                             </select>
                                         </td>
                                     </tr>

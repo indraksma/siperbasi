@@ -47,7 +47,8 @@ class FrontController extends Controller
     public function getbarangbukti(Request $request)
     {
         if ($request->ajax()) {
-            $data = BarangBukti::latest()->with('penyitaan')->get();
+            // $data = BarangBukti::latest()->with('penyitaan')->get();
+            $data = BarangBukti::select('barang_buktis.id', 'nama_barang', 'penyitaans.tersangka')->join('penyitaans', 'penyitaans.id', 'barang_buktis.penyitaan_id')->orderBy('barang_buktis.created_at', 'DESC')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -65,7 +66,8 @@ class FrontController extends Controller
     public function getbarangsita(Request $request)
     {
         if ($request->ajax()) {
-            $data = BarangBukti::where('status', 3)->latest()->with('penyitaan')->get();
+            // $data = BarangBukti::where('status', 3)->latest()->with('penyitaan')->get();
+            $data = BarangBukti::select('barang_buktis.id', 'nama_barang', 'penyitaans.tersangka')->join('penyitaans', 'penyitaans.id', 'barang_buktis.penyitaan_id')->whereBetween('barang_buktis.status', [3, 5])->orderBy('barang_buktis.created_at', 'DESC')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
