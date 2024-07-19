@@ -180,7 +180,12 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-12 text-center" id="loadingspinner" style="display: none;">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        <div class="col-12" id="detailBarangBukti" style="display: none;">
                             <table class="table table-bordered">
                                 <tr>
                                     <th>Tanggal Masuk Kejaksaan</th>
@@ -322,6 +327,7 @@
                     }
                     $('#eksekusi').hide();
                 }
+                $('#detailBarangBukti').show();
             })
         }
     </script>
@@ -347,6 +353,16 @@
                 ]
             });
 
+        });
+
+        $(document).on({
+            ajaxStart: function() {
+                $('#loadingspinner').show();
+                $('#detailBarangBukti').hide();
+            },
+            ajaxStop: function() {
+                $('#loadingspinner').hide();
+            }
         });
     </script>
 @endpush

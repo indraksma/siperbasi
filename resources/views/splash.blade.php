@@ -22,7 +22,7 @@
      <script>
          setTimeout(function() {
              window.location.href = '/home';
-         }, 5000);
+         }, 3000);
      </script>
  @endpush
  @section('content')
