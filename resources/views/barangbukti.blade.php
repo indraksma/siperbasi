@@ -141,7 +141,7 @@
                                 <thead>
                                     <tr>
                                         <th>Nama Barang</th>
-                                        <th>Tersangka</th>
+                                        <th>Terdakwa</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -187,7 +187,7 @@
                                     <td><span id="tanggalMasuk"></span></td>
                                 </tr>
                                 <tr>
-                                    <th>Nama Tersangka</th>
+                                    <th>Nama Terdakwa</th>
                                     <td><span id="namaTersangka"></span></td>
                                 </tr>
                                 <tr>
