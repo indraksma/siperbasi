@@ -89,6 +89,9 @@
                                 </td>
                             </tr>
                         </table>
+                        <button class="btn btn-warning" wire:click="editEksekusi({{ $eksekusi->id }})"
+                            data-toggle="modal" data-target="#eksekusiModal" data-dismiss="modal">Edit
+                            Eksekusi</button>
                     @endif
                 </div>
             </div>
@@ -199,7 +202,7 @@
     <!-- Modal Tambah Eksekusi -->
     <div wire:ignore.self class="modal fade" id="eksekusiModal" data-backdrop="static" tabindex="-1"
         role="dialog" aria-labelledby="eksekusiModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="eksekusiModalLabel">Eksekusi Barang Bukti</h5>
@@ -208,8 +211,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="POST" wire:submit.prevent="storeEksekusi()">
-                    <div class="modal-body">
+                <div class="modal-body">
+                    <form id="eksekusiForm" method="POST" wire:submit.prevent="storeEksekusi()">
                         <div class="form-group">
                             <label for="tglEksekusi">Tanggal Eksekusi</label>
                             <input type="date" wire:model.lazy="tanggal_eksekusi" class="form-control"
@@ -224,6 +227,9 @@
                                 (Optional)
                                 <small>(JPG/JPEG/PNG.
                                     Max:2MB)</small></label>
+                            @if ($foto_eksekusi)
+                                <img src="/storage/eksekusi/{{ $foto_eksekusi }}" class="img-fluid" />
+                            @endif
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" accept=".jpg,.jpeg,.png" wire:model="file_eksekusi"
@@ -236,13 +242,13 @@
                                 </div>
                             @enderror
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                        <button type="button" wire:click="resetInputFields()" data-dismiss="modal"
-                            class="btn btn-secondary float-right">Batal</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" form="eksekusiForm" class="btn btn-primary">Simpan</button>
+                    <button type="button" wire:click="resetInputFields()" data-dismiss="modal"
+                        class="btn btn-secondary float-right">Batal</button>
+                </div>
             </div>
         </div>
     </div>

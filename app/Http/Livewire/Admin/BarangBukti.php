@@ -15,7 +15,7 @@ class BarangBukti extends Component
     use LivewireAlert, WithPagination, WithFileUploads;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['edit' => 'edit', 'deleteId' => 'deleteId', 'tambahData' => 'tambahData', 'eksekusi' => 'eksekusi', 'detailEksekusi' => 'detailEksekusi'];
-    public $bb_id, $delete_id, $nama_barang, $file_photo, $foto, $no_penyitaan, $no_sita, $not_found, $no_putusan, $status_putusan, $keterangan, $keterangan_eksekusi, $tanggal_eksekusi, $file_eksekusi, $eksekusi;
+    public $bb_id, $delete_id, $nama_barang, $file_photo, $foto, $no_penyitaan, $no_sita, $not_found, $no_putusan, $status_putusan, $keterangan, $keterangan_eksekusi, $tanggal_eksekusi, $file_eksekusi, $eksekusi, $foto_eksekusi;
     public $tambah = FALSE;
     public $status = FALSE;
     public $iteration = 0;
@@ -104,7 +104,7 @@ class BarangBukti extends Component
     {
         $this->tambah = FALSE;
         $this->status = FALSE;
-        $this->reset(['bb_id', 'delete_id', 'no_penyitaan', 'no_sita', 'nama_barang', 'file_photo', 'not_found', 'no_putusan', 'status_putusan', 'foto', 'keterangan', 'keterangan_eksekusi', 'file_eksekusi', 'tanggal_eksekusi', 'eksekusi']);
+        $this->reset(['bb_id', 'delete_id', 'no_penyitaan', 'no_sita', 'nama_barang', 'file_photo', 'not_found', 'no_putusan', 'status_putusan', 'foto', 'keterangan', 'keterangan_eksekusi', 'file_eksekusi', 'tanggal_eksekusi', 'eksekusi', 'foto_eksekusi']);
         $this->tanggal_eksekusi = date('Y-m-d');
     }
 
@@ -175,6 +175,17 @@ class BarangBukti extends Component
         $this->bb_id = $id;
     }
 
+    public function editEksekusi($id)
+    {
+        $this->bb_id = $id;
+        $eksekusi = ModelsBarangBukti::where('id', $id)->first();
+        $this->tanggal_eksekusi = $eksekusi->tanggal_eksekusi;
+        $this->keterangan_eksekusi = $eksekusi->ket_eksekusi;
+        if ($eksekusi->foto_eksekusi != NULL) {
+            $this->foto_eksekusi = $eksekusi->foto_eksekusi;
+        }
+    }
+
     public function detailEksekusi($id)
     {
         $this->eksekusi = ModelsBarangBukti::where('id', $id)->first();
@@ -189,7 +200,7 @@ class BarangBukti extends Component
             $uploadedfilename = $filename . '.' . $this->file_eksekusi->getClientOriginalExtension();
             $this->file_eksekusi->storeAs('public/eksekusi', $uploadedfilename);
         } else {
-            $uploadedfilename = $bb->foto;
+            $uploadedfilename = $bb->foto_eksekusi;
         }
         $bb->update([
             'tanggal_eksekusi' => $this->tanggal_eksekusi,
