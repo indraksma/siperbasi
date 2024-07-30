@@ -19,7 +19,7 @@ class Penyitaan extends Component
 {
     use LivewireAlert, WithPagination, WithFileUploads;
     protected $paginationTheme = 'bootstrap';
-    public $delete_id, $barang_bukti, $no_putusan, $tanggal_putusan, $pengadilan, $penuntut, $terpidana, $penyitaan_id, $status_putusan;
+    public $delete_id, $barang_bukti, $no_putusan, $tanggal_putusan, $pengadilan, $penuntut, $terpidana, $penyitaan_id, $status_putusan, $no_penyitaan, $tersangka, $penyidik, $pengadilan_sita, $penuntut_sita, $tanggal_penyitaan;
     public Collection $inputs;
 
     public function mount()
@@ -39,7 +39,7 @@ class Penyitaan extends Component
 
     public function resetInputFields()
     {
-        $this->reset(['delete_id', 'barang_bukti', 'tanggal_putusan', 'no_putusan', 'pengadilan', 'penuntut', 'terpidana', 'penyitaan_id', 'status_putusan']);
+        $this->reset(['delete_id', 'barang_bukti', 'tanggal_putusan', 'no_putusan', 'pengadilan', 'penuntut', 'terpidana', 'penyitaan_id', 'status_putusan', 'no_penyitaan', 'tersangka', 'penyidik', 'pengadilan_sita', 'penuntut_sita', 'tanggal_penyitaan']);
     }
 
     public function deleteId($id)
@@ -139,5 +139,37 @@ class Penyitaan extends Component
         }
         $this->resetInputFields();
         $this->dispatchBrowserEvent('closeModal');
+    }
+
+    public function editPenyitaan($id)
+    {
+        $this->penyitaan_id = $id;
+        $penyitaan = ModelsPenyitaan::where('id', $id)->first();
+        $this->no_penyitaan = $penyitaan->no_penyitaan;
+        $this->tanggal_penyitaan = $penyitaan->tanggal_penyitaan;
+        $this->pengadilan_sita = $penyitaan->pengadilan;
+        $this->penuntut_sita = $penyitaan->penuntut;
+        $this->penyidik = $penyitaan->penyidik;
+        $this->tersangka = $penyitaan->tersangka;
+    }
+
+    public function updatePenyitaan()
+    {
+        $penyitaan = ModelsPenyitaan::where('id', $this->penyitaan_id)->first();
+        $penyitaan->update([
+            'tanggal_penyitaan' => $this->tanggal_penyitaan,
+            'no_penyitaan' => $this->no_penyitaan,
+            'pengadilan' => $this->pengadilan_sita,
+            'penyidik' => $this->penyidik,
+            'penuntut' => $this->penuntut_sita,
+            'tersangka' => $this->tersangka,
+        ]);
+        $this->alert('success', 'Data Berhasil Diubah!', [
+            'position' => 'center',
+            'timer' => 3000,
+            'toast' => true,
+        ]);
+        $this->resetInputFields();
+        $this->dispatchBrowserEvent('closeModalEdit');
     }
 }

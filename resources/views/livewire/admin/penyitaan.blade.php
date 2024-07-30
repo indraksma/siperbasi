@@ -4,6 +4,9 @@
         document.addEventListener('closeModal', (event) => {
             $('#putusanModal').modal('hide');
         });
+        document.addEventListener('closeModalEdit', (event) => {
+            $('#penyitaanModal').modal('hide');
+        });
     </script>
 @endpush
 <div>
@@ -74,6 +77,10 @@
                                                                 class="fas fa-plus"></i>
                                                             Putusan</button>
                                                     @endif
+                                                    <button type="button"
+                                                        wire:click="editPenyitaan({{ $data->id }})"
+                                                        data-toggle="modal" data-target="#penyitaanModal"
+                                                        class="btn btn-warning btn-sm mb-1">Edit</button>
                                                     <button type="button" wire:click="deleteId({{ $data->id }})"
                                                         data-toggle="modal" data-target="#deleteModal"
                                                         class="btn btn-danger btn-sm mb-1">Hapus</button>
@@ -167,8 +174,8 @@
                         </div>
                         <div class="form-group">
                             <label for="tanggalPutusan">Tanggal</label>
-                            <input type="date" wire:model="tanggal_putusan" class="form-control" id="tanggalPutusan"
-                                required>
+                            <input type="date" wire:model="tanggal_putusan" class="form-control"
+                                id="tanggalPutusan" required>
                         </div>
                         <div class="form-group">
                             <label for="pengadilan">Pengadilan</label>
@@ -266,6 +273,60 @@
                         data-dismiss="modal">Cancel</button>
                     <button type="button" wire:click.prevent="destroy()" class="btn btn-danger close-modal"
                         data-dismiss="modal">Yes, Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Edit Penyitaan -->
+    <div wire:ignore.self class="modal fade" id="penyitaanModal" data-backdrop="static" tabindex="-1"
+        role="dialog" aria-labelledby="penyitaanModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="penyitaanModalLabel">Edit Penetapan Penyitaan</h5>
+                    <button type="button" class="close" wire:click="resetInputFields()" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" id="editPenyitaanForm" wire:submit.prevent="updatePenyitaan()">
+                        <div class="form-group">
+                            <label for="nomorSita">Nomor Penetapan Penyitaan</label>
+                            <input type="text" wire:model.lazy="no_penyitaan" class="form-control" id="nomorSita"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tanggalSita">Tanggal</label>
+                            <input type="date" wire:model="tanggal_penyitaan" class="form-control"
+                                id="tanggalSita" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pengadilan">Pengadilan</label>
+                            <input type="text" wire:model.lazy="pengadilan_sita" class="form-control"
+                                id="pengadilan" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="penyidik">Penyidik</label>
+                            <input type="text" wire:model.lazy="penyidik" class="form-control" id="penyidik"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="penuntut">Penuntut</label>
+                            <input type="text" wire:model.lazy="penuntut_sita" class="form-control"
+                                id="penuntut" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="namaTersangka">Nama Terdakwa</label>
+                            <input type="text" wire:model.lazy="tersangka" class="form-control"
+                                id="namaTersangka" rows="2" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" form="editPenyitaanForm" class="btn btn-primary">Simpan</button>
+                    <button type="button" wire:click="resetInputFields()" class="btn btn-secondary float-right"
+                        data-dismiss="modal">Batal</button>
                 </div>
             </div>
         </div>
