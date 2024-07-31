@@ -43,11 +43,6 @@
                         {{-- <div class="table-responsive"> --}}
                         <livewire:admin.bb-table />
                         {{-- </div> --}}
-                        @if ($barangbukti->isNotEmpty())
-                            <div class="mt-2">
-                                {{ $barangbukti->links() }}
-                            </div>
-                        @endif
                     </div>
                 </div><!-- /.card -->
             </div>
