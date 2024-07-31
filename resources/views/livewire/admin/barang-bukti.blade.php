@@ -144,6 +144,9 @@
                                 <img src="{{ url('storage/bb/' . $foto) }}" class="img-fluid my-2"
                                     style="max-width: 200px;">
                                 <br />
+                                <button type="button" class="btn btn-danger btn-sm"
+                                    wire:click="hapusFotoBB">Hapus</button>
+                                <br />
                             @endif
                             <div class="input-group">
                                 <div class="custom-file">
@@ -228,7 +231,10 @@
                                 <small>(JPG/JPEG/PNG.
                                     Max:2MB)</small></label>
                             @if ($foto_eksekusi)
-                                <img src="/storage/eksekusi/{{ $foto_eksekusi }}" class="img-fluid" />
+                                <img src="/storage/eksekusi/{{ $foto_eksekusi }}" class="img-fluid mb-2" />
+                                <br />
+                                <button type="button" class="btn btn-sm btn-danger"
+                                    wire:click="hapusFotoEks">Hapus</button>
                             @endif
                             <div class="input-group">
                                 <div class="custom-file">

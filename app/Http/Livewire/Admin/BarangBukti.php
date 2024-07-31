@@ -15,7 +15,7 @@ class BarangBukti extends Component
     use LivewireAlert, WithPagination, WithFileUploads;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['edit' => 'edit', 'deleteId' => 'deleteId', 'tambahData' => 'tambahData', 'eksekusi' => 'eksekusi', 'detailEksekusi' => 'detailEksekusi'];
-    public $bb_id, $delete_id, $nama_barang, $file_photo, $foto, $no_penyitaan, $no_sita, $not_found, $no_putusan, $status_putusan, $keterangan, $keterangan_eksekusi, $tanggal_eksekusi, $file_eksekusi, $eksekusi, $foto_eksekusi;
+    public $bb_id, $delete_id, $nama_barang, $file_photo, $foto, $no_penyitaan, $no_sita, $not_found, $no_putusan, $status_putusan, $keterangan, $keterangan_eksekusi, $tanggal_eksekusi, $file_eksekusi, $eksekusi, $foto_eksekusi, $deletefotobb, $deletefotoeks;
     public $tambah = FALSE;
     public $status = FALSE;
     public $iteration = 0;
@@ -104,7 +104,9 @@ class BarangBukti extends Component
     {
         $this->tambah = FALSE;
         $this->status = FALSE;
-        $this->reset(['bb_id', 'delete_id', 'no_penyitaan', 'no_sita', 'nama_barang', 'file_photo', 'not_found', 'no_putusan', 'status_putusan', 'foto', 'keterangan', 'keterangan_eksekusi', 'file_eksekusi', 'tanggal_eksekusi', 'eksekusi', 'foto_eksekusi']);
+        $this->reset(['bb_id', 'delete_id', 'no_penyitaan', 'no_sita', 'nama_barang', 'file_photo', 'not_found', 'no_putusan', 'status_putusan', 'foto', 'keterangan', 'keterangan_eksekusi', 'file_eksekusi', 'tanggal_eksekusi', 'eksekusi', 'foto_eksekusi', 'deletefotobb', 'deletefotoeks']);
+        $this->deletefotobb = FALSE;
+        $this->deletefotoeks = FALSE;
         $this->tanggal_eksekusi = date('Y-m-d');
     }
 
@@ -120,12 +122,21 @@ class BarangBukti extends Component
             } else {
                 $uploadedfilename = $bb->foto;
             }
-            $bb->update([
-                'nama_barang' => $this->nama_barang,
-                'keterangan' => $this->keterangan,
-                'foto' => $uploadedfilename,
-                'status' => $this->status_putusan,
-            ]);
+            if ($this->deletefotobb) {
+                $bb->update([
+                    'nama_barang' => $this->nama_barang,
+                    'keterangan' => $this->keterangan,
+                    'foto' => NULL,
+                    'status' => $this->status_putusan,
+                ]);
+            } else {
+                $bb->update([
+                    'nama_barang' => $this->nama_barang,
+                    'keterangan' => $this->keterangan,
+                    'foto' => $uploadedfilename,
+                    'status' => $this->status_putusan,
+                ]);
+            }
 
             $this->alert('success', 'Data berhasil diubah.', [
                 'position' => 'center',
@@ -202,11 +213,19 @@ class BarangBukti extends Component
         } else {
             $uploadedfilename = $bb->foto_eksekusi;
         }
-        $bb->update([
-            'tanggal_eksekusi' => $this->tanggal_eksekusi,
-            'ket_eksekusi' => $this->keterangan_eksekusi,
-            'foto_eksekusi' => $uploadedfilename,
-        ]);
+        if ($this->deletefotoeks) {
+            $bb->update([
+                'tanggal_eksekusi' => $this->tanggal_eksekusi,
+                'ket_eksekusi' => $this->keterangan_eksekusi,
+                'foto_eksekusi' => NULL,
+            ]);
+        } else {
+            $bb->update([
+                'tanggal_eksekusi' => $this->tanggal_eksekusi,
+                'ket_eksekusi' => $this->keterangan_eksekusi,
+                'foto_eksekusi' => $uploadedfilename,
+            ]);
+        }
 
         $this->alert('success', 'Data berhasil ditambahkan.', [
             'position' => 'center',
@@ -218,5 +237,16 @@ class BarangBukti extends Component
 
         $this->resetInputFields();
         $this->emit('refreshBbTable');
+    }
+
+    public function hapusFotoBB()
+    {
+        $this->reset('foto');
+        $this->deletefotobb = TRUE;
+    }
+    public function hapusFotoEks()
+    {
+        $this->reset('foto_eksekusi');
+        $this->deletefotoeks = TRUE;
     }
 }
