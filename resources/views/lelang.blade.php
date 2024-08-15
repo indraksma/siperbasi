@@ -144,7 +144,7 @@
                             @endif
                             <iframe
                                 src="{{ url('/plugins/pdfjs/web/viewer.html?file=' . asset('storage/lelang/' . $lelang->file) . '#view=fit') }}"
-                                width="100%" height="auto">
+                                width="100%" height="100%">
                                 This browser does not support PDFs. Please download the PDF to view it: <a
                                     class="btn btn-primary" href="{{ asset('storage/lelang/' . $lelang->file) }}">Download
                                     PDF</a>
