@@ -142,9 +142,8 @@
                                 </p>
                                 <p>{{ $lelang->deskripsi }}</p>
                             @endif
-                            <iframe
-                                src="{{ url('/plugins/pdfjs/web/viewer.html?file=' . asset('storage/lelang/' . $lelang->file) . '#view=fit') }}"
-                                width="100%" height="100%">
+                            <iframe {{-- src="{{ url('/plugins/pdfjs/web/viewer.html?file=' . asset('storage/lelang/' . $lelang->file) . '#view=full') }}" --}} src="{{ url(asset('storage/lelang/' . $lelang->file)) }}"
+                                width="100%" height="1000px">
                                 This browser does not support PDFs. Please download the PDF to view it: <a
                                     class="btn btn-primary" href="{{ asset('storage/lelang/' . $lelang->file) }}">Download
                                     PDF</a>
