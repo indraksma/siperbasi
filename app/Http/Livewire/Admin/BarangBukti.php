@@ -16,6 +16,8 @@ class BarangBukti extends Component
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['edit' => 'edit', 'deleteId' => 'deleteId', 'tambahData' => 'tambahData', 'eksekusi' => 'eksekusi', 'detailEksekusi' => 'detailEksekusi'];
     public $bb_id, $delete_id, $nama_barang, $file_photo, $foto, $no_penyitaan, $no_sita, $not_found, $no_putusan, $status_putusan, $keterangan, $keterangan_eksekusi, $tanggal_eksekusi, $file_eksekusi, $eksekusi, $foto_eksekusi, $deletefotobb, $deletefotoeks;
+    public $no_register, $ket_sidang, $tanggal_register, $kondisi, $satuan, $ekonomis_tinggi;
+    public $startDate, $endDate;
     public $tambah = FALSE;
     public $status = FALSE;
     public $iteration = 0;
@@ -84,6 +86,12 @@ class BarangBukti extends Component
         $this->nama_barang = $bb->nama_barang;
         $this->keterangan = $bb->keterangan;
         $this->foto = $bb->foto;
+        $this->satuan = $bb->satuan;
+        $this->ket_sidang = $bb->ket_sidang;
+        $this->no_register = $bb->no_register;
+        $this->tanggal_register = $bb->tanggal_register;
+        $this->kondisi = $bb->kondisi;
+        $this->ekonomis_tinggi = $bb->ekonomis_tinggi;
         $this->bb_id = $id;
         if ($bb->putusan_id != NULL) {
             $this->status = TRUE;
@@ -105,6 +113,8 @@ class BarangBukti extends Component
         $this->tambah = FALSE;
         $this->status = FALSE;
         $this->reset(['bb_id', 'delete_id', 'no_penyitaan', 'no_sita', 'nama_barang', 'file_photo', 'not_found', 'no_putusan', 'status_putusan', 'foto', 'keterangan', 'keterangan_eksekusi', 'file_eksekusi', 'tanggal_eksekusi', 'eksekusi', 'foto_eksekusi', 'deletefotobb', 'deletefotoeks']);
+        $this->reset(['tanggal_register', 'no_register', 'kondisi', 'ket_sidang', 'satuan', 'ekonomis_tinggi']);
+        $this->reset(['startDate', 'endDate']);
         $this->deletefotobb = FALSE;
         $this->deletefotoeks = FALSE;
         $this->tanggal_eksekusi = date('Y-m-d');
@@ -128,6 +138,12 @@ class BarangBukti extends Component
                     'keterangan' => $this->keterangan,
                     'foto' => NULL,
                     'status' => $this->status_putusan,
+                    'satuan' => $this->satuan,
+                    'kondisi' => $this->kondisi,
+                    'ekonomis_tinggi' => $this->ekonomis_tinggi,
+                    'no_register' => $this->no_register,
+                    'tanggal_register' => $this->tanggal_register,
+                    'ket_sidang' => $this->ket_sidang,
                 ]);
             } else {
                 $bb->update([
@@ -135,6 +151,12 @@ class BarangBukti extends Component
                     'keterangan' => $this->keterangan,
                     'foto' => $uploadedfilename,
                     'status' => $this->status_putusan,
+                    'satuan' => $this->satuan,
+                    'kondisi' => $this->kondisi,
+                    'ekonomis_tinggi' => $this->ekonomis_tinggi,
+                    'no_register' => $this->no_register,
+                    'tanggal_register' => $this->tanggal_register,
+                    'ket_sidang' => $this->ket_sidang,
                 ]);
             }
 
@@ -165,6 +187,12 @@ class BarangBukti extends Component
                 'putusan_id' => $putusan_id,
                 'nama_barang' => $this->nama_barang,
                 'keterangan' => $this->keterangan,
+                'satuan' => $this->satuan,
+                'kondisi' => $this->kondisi,
+                'ekonomis_tinggi' => $this->ekonomis_tinggi,
+                'no_register' => $this->no_register,
+                'tanggal_register' => $this->tanggal_register,
+                'ket_sidang' => $this->ket_sidang,
                 'foto' => $uploadedfilename,
                 'status' => $status,
             ]);

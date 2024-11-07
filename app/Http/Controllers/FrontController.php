@@ -8,6 +8,8 @@ use App\Models\SiteConfig;
 use App\Models\Survey;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use App\Exports\BarbukExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FrontController extends Controller
 {
@@ -114,5 +116,19 @@ class FrontController extends Controller
         if ($store) {
             return redirect()->back()->with('success', 'Survey berhasil dikirim. Terimakasih atas ulasan yang telah Anda berikan.');
         }
+    }
+
+    public function exportBarbuk(Request $request)
+    {
+        // Validate the date input
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        return Excel::download(new BarbukExport($startDate, $endDate), 'barang_bukti_export.xlsx');
     }
 }

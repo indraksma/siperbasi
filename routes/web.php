@@ -46,4 +46,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/pengumuman', Pengumuman::class)->name('admin.pengumuman');
     Route::get('/admin/survey', Survey::class)->name('admin.survey');
     Route::get('/admin/setting', Setting::class)->name('admin.setting');
+    Route::get('/export-barbuk', [FrontController::class, 'exportBarbuk'])->name('export.barbuk');
 });

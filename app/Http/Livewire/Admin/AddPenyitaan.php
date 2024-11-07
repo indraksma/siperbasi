@@ -17,6 +17,7 @@ class AddPenyitaan extends Component
     use LivewireAlert, WithPagination, WithFileUploads;
     protected $paginationTheme = 'bootstrap';
     public $no_penyitaan, $tersangka, $penyidik, $pengadilan, $penuntut, $tanggal_penyitaan, $nama_barang, $file_photo, $keterangan;
+    public $no_register, $ket_sidang, $tanggal_register, $kondisi, $satuan, $ekonomis_tinggi;
     public $iteration = 0;
     public $inputs = [];
     public $i = 0;
@@ -49,6 +50,7 @@ class AddPenyitaan extends Component
     public function resetInputFields()
     {
         $this->reset(['no_penyitaan', 'tanggal_penyitaan', 'tersangka', 'penyidik', 'penuntut', 'pengadilan', 'penyitaan_id', 'nama_barang', 'file_photo', 'keterangan']);
+        $this->reset(['tanggal_register', 'no_register', 'kondisi', 'ket_sidang', 'satuan', 'ekonomis_tinggi']);
     }
 
     public function store()
@@ -85,6 +87,12 @@ class AddPenyitaan extends Component
                     'keterangan' => $this->keterangan[$key],
                     'foto' => $uploadedfilename[$key],
                     'status' => 0,
+                    'satuan' => $this->satuan[$key],
+                    'kondisi' => $this->kondisi[$key],
+                    'ekonomis_tinggi' => $this->ekonomis_tinggi[$key],
+                    'no_register' => $this->no_register[$key],
+                    'tanggal_register' => $this->tanggal_register[$key],
+                    'ket_sidang' => $this->ket_sidang[$key],
                 ]);
             }
 

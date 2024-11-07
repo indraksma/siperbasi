@@ -35,9 +35,11 @@
                 <div class="card card-primary card-outline">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-12 text-right">
+                            <div class="col-12">
                                 <button class="btn btn-primary mb-2" wire:click="$emit('tambahData')"
                                     data-toggle="modal" data-target="#bbModal">Tambah</button>
+                                <button class="btn btn-secondary mb-2 float-right" data-toggle="modal"
+                                    data-target="#exportBbModal">Export</button>
                             </div>
                         </div>
                         {{-- <div class="table-responsive"> --}}
@@ -45,6 +47,41 @@
                         {{-- </div> --}}
                     </div>
                 </div><!-- /.card -->
+            </div>
+        </div>
+    </div>
+    <!-- Modal Export Barang Bukti -->
+    <div wire:ignore.self class="modal fade" id="exportBbModal" data-backdrop="static" tabindex="-1" role="dialog"
+        aria-labelledby="exportBbModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exportBbModalLabel">Export Data Barang Bukti</h5>
+                    <button type="button" wire:click="resetInputFields()" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="GET" action="{{ route('export.barbuk') }}">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="start_date">Tanggal Awal</label>
+                            <input type="date" wire:model="startDate" name="start_date" class="form-control"
+                                id="start_date" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="end_date">Tanggal Akhir</label>
+                            <input type="date" wire:model="endDate" name="end_date" class="form-control"
+                                id="end_date" required />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Export</button>
+                        <button type="button" wire:click="resetInputFields()" data-dismiss="modal"
+                            class="btn btn-secondary float-right">Batal</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -121,12 +158,46 @@
                             </div>
                         @endif
                         <div class="form-group">
+                            <label for="input_0_tglRegister">Tanggal Register</label>
+                            <input type="date" wire:model="tanggal_register" class="form-control"
+                                id="input_0_tglRegister" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="input_0_noReg">No Register</label>
+                            <input type="text" wire:model.lazy="no_register" class="form-control"
+                                id="input_0_noReg" required />
+                        </div>
+                        <div class="form-group">
                             <label for="input_0_bb">Nama Barang</label>
                             <input type="text" wire:model.lazy="nama_barang" class="form-control" id="input_0_bb"
                                 required />
                         </div>
+                        <div class="form-check mb-2">
+                            <input type="checkbox" class="form-check-input" wire:model="ekonomis_tinggi"
+                                id="input_0_cekEkonomis">
+                            <label class="form-check-label text-bold" for="input_0_cekEkonomis">Ekonomis
+                                Tinggi</label>
+                        </div>
                         <div class="form-group">
-                            <label for="keterangan_0_bb">Keterangan</label>
+                            <label for="input_0_satuan">Satuan</label>
+                            <input type="text" wire:model.lazy="satuan" class="form-control" id="input_0_satuan"
+                                required />
+                        </div>
+                        <div class="form-group">
+                            <label for="input_0_kondisi">Kondisi</label>
+                            <select wire:model="kondisi" class="form-control" id="input_0_kondisi" required>
+                                <option value="">-- Pilih --</option>
+                                <option value="Baik">Baik</option>
+                                <option value="Rusak Ringan">Rusak Ringan</option>
+                                <option value="Rusak Berat">Rusak Berat</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="keterangan_0_sidang">Keterangan Sidang</label>
+                            <textarea wire:model.lazy="ket_sidang" class="form-control" id="keterangan_0_sidang" rows="2" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="keterangan_0_bb">Keterangan Barang</label>
                             <textarea wire:model.lazy="keterangan" class="form-control" id="keterangan_0_bb" rows="3" required></textarea>
                         </div>
                         <div class="form-group">
