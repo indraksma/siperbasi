@@ -19,6 +19,7 @@ class Penyitaan extends Component
 {
     use LivewireAlert, WithPagination, WithFileUploads;
     protected $paginationTheme = 'bootstrap';
+    protected $listeners = ['barbuk' => 'barbuk', 'putusan' => 'putusan', 'editPenyitaan' => 'editPenyitaan', 'deleteId' => 'deleteId'];
     public $delete_id, $barang_bukti, $no_putusan, $tanggal_putusan, $pengadilan, $penuntut, $terpidana, $penyitaan_id, $status_putusan, $no_penyitaan, $tersangka, $penyidik, $pengadilan_sita, $penuntut_sita, $tanggal_penyitaan;
     public Collection $inputs;
 

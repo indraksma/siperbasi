@@ -15,6 +15,7 @@ class Putusan extends Component
     use LivewireAlert, WithPagination;
     public $barang_bukti, $delete_id, $no_putusan, $tanggal_putusan, $pengadilan, $penuntut, $terpidana, $status_putusan, $putusan_id;
     protected $paginationTheme = 'bootstrap';
+    protected $listeners = ['barbuk' => 'barbuk', 'putusan' => 'putusan', 'edit' => 'edit', 'deleteId' => 'deleteId'];
 
     public function render()
     {

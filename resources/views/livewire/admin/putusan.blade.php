@@ -31,7 +31,8 @@
             <div class="container-fluid">
                 <div class="card card-primary card-outline">
                     <div class="card-body">
-                        <div class="table-responsive">
+                        <livewire:putusan-table />
+                        {{-- <div class="table-responsive">
                             <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
@@ -81,7 +82,7 @@
                             <div class="mt-2">
                                 {{ $putusan->links() }}
                             </div>
-                        @endif
+                        @endif --}}
                     </div>
                 </div><!-- /.card -->
             </div>
@@ -200,8 +201,8 @@
                         </div>
                         <div class="form-group">
                             <label for="namaTerpidana">Nama Terpidana</label>
-                            <input type="text" wire:model.lazy="terpidana" class="form-control"
-                                id="namaTerpidana" required>
+                            <input type="text" wire:model.lazy="terpidana" class="form-control" id="namaTerpidana"
+                                required>
                         </div>
                         <hr />
                         <h5>Barang Bukti</h5>
@@ -222,8 +223,8 @@
                                         <td>{{ $bb->nama_barang }}</td>
                                         <td>
                                             @if ($bb->foto)
-                                                <img src="{{ url('storage/bb/' . $bb->foto) }}"
-                                                    class="img-fluid my-2" style="max-width: 200px;">
+                                                <img src="{{ url('storage/bb/' . $bb->foto) }}" class="img-fluid my-2"
+                                                    style="max-width: 200px;">
                                             @else
                                                 -
                                             @endif

@@ -38,8 +38,11 @@
                             <div class="col-12 text-right">
                                 <a class="btn btn-info mb-2" href="{{ route('admin.addpenyitaan') }}">Tambah</a>
                             </div>
+                            <div class="col-12">
+                                <livewire:penyitaan-table />
+                            </div>
                         </div>
-                        <div class="table-responsive">
+                        {{-- <div class="table-responsive">
                             <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
@@ -94,7 +97,7 @@
                                     @endif
                                 </tbody>
                             </table>
-                        </div>
+                        </div> --}}
                         @if ($sita->isNotEmpty())
                             <div class="mt-2">
                                 {{ $sita->links() }}
@@ -174,8 +177,8 @@
                         </div>
                         <div class="form-group">
                             <label for="tanggalPutusan">Tanggal</label>
-                            <input type="date" wire:model="tanggal_putusan" class="form-control"
-                                id="tanggalPutusan" required>
+                            <input type="date" wire:model="tanggal_putusan" class="form-control" id="tanggalPutusan"
+                                required>
                         </div>
                         <div class="form-group">
                             <label for="pengadilan">Pengadilan</label>
@@ -189,8 +192,8 @@
                         </div>
                         <div class="form-group">
                             <label for="namaTerpidana">Nama Terpidana</label>
-                            <input type="text" wire:model.lazy="terpidana" class="form-control"
-                                id="namaTerpidana" readonly>
+                            <input type="text" wire:model.lazy="terpidana" class="form-control" id="namaTerpidana"
+                                readonly>
                         </div>
                         <hr />
                         <h5>Barang Bukti</h5>
@@ -213,8 +216,8 @@
                                         <td>{{ $bb->keterangan }}</td>
                                         <td>
                                             @if ($bb->foto)
-                                                <img src="{{ url('storage/bb/' . $bb->foto) }}"
-                                                    class="img-fluid my-2" style="max-width: 200px;">
+                                                <img src="{{ url('storage/bb/' . $bb->foto) }}" class="img-fluid my-2"
+                                                    style="max-width: 200px;">
                                             @else
                                                 -
                                             @endif

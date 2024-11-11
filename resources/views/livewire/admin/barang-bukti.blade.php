@@ -172,34 +172,36 @@
                             <input type="text" wire:model.lazy="nama_barang" class="form-control" id="input_0_bb"
                                 required />
                         </div>
+                        <div class="form-group">
+                            <label for="keterangan_0_bb">Keterangan Barang</label>
+                            <textarea wire:model.lazy="keterangan" class="form-control" id="keterangan_0_bb" rows="3"></textarea>
+                        </div>
                         <div class="form-check mb-2">
                             <input type="checkbox" class="form-check-input" wire:model="ekonomis_tinggi"
                                 id="input_0_cekEkonomis">
                             <label class="form-check-label text-bold" for="input_0_cekEkonomis">Ekonomis
                                 Tinggi</label>
                         </div>
-                        <div class="form-group">
-                            <label for="input_0_satuan">Satuan</label>
-                            <input type="text" wire:model.lazy="satuan" class="form-control" id="input_0_satuan"
-                                required />
-                        </div>
-                        <div class="form-group">
-                            <label for="input_0_kondisi">Kondisi</label>
-                            <select wire:model="kondisi" class="form-control" id="input_0_kondisi" required>
-                                <option value="">-- Pilih --</option>
-                                <option value="Baik">Baik</option>
-                                <option value="Rusak Ringan">Rusak Ringan</option>
-                                <option value="Rusak Berat">Rusak Berat</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="keterangan_0_sidang">Keterangan Sidang</label>
-                            <textarea wire:model.lazy="ket_sidang" class="form-control" id="keterangan_0_sidang" rows="2" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="keterangan_0_bb">Keterangan Barang</label>
-                            <textarea wire:model.lazy="keterangan" class="form-control" id="keterangan_0_bb" rows="3" required></textarea>
-                        </div>
+                        @if ($ekonomis_tinggi)
+                            <div class="form-group">
+                                <label for="input_0_satuan">Satuan</label>
+                                <input type="text" wire:model.lazy="satuan" class="form-control"
+                                    id="input_0_satuan" />
+                            </div>
+                            <div class="form-group">
+                                <label for="input_0_kondisi">Kondisi</label>
+                                <select wire:model="kondisi" class="form-control" id="input_0_kondisi">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="Baik">Baik</option>
+                                    <option value="Rusak Ringan">Rusak Ringan</option>
+                                    <option value="Rusak Berat">Rusak Berat</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="keterangan_0_sidang">Keterangan Sidang</label>
+                                <textarea wire:model.lazy="ket_sidang" class="form-control" id="keterangan_0_sidang" rows="2"></textarea>
+                            </div>
+                        @endif
                         <div class="form-group">
                             <label for="upload_{{ $iteration }}">Foto Barang Bukti
                                 (Optional)

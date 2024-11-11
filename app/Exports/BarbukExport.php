@@ -52,10 +52,11 @@ class BarbukExport implements FromCollection, WithHeadings, WithMapping, WithCus
     public function map($barang): array
     {
         $this->rowNumber++;
+        $tgl_register = \Carbon\Carbon::parse($barang->tanggal_register)->format('d-m-Y');
         return [
             $this->rowNumber,
             "KEJAKSAAN NEGERI BANJARNEGARA",
-            "{$barang->no_register} - {$barang->tanggal_register}",  // Merge
+            "{$barang->no_register} - {$tgl_register}",
             $barang->penyitaan->tersangka,
             $barang->nama_barang,
             $barang->satuan,
