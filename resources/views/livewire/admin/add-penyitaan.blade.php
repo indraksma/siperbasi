@@ -98,6 +98,12 @@
                                     <input type="date" wire:model="tanggal_register.{{ $key }}"
                                         class="form-control" id="input_{{ $key }}_tglRegister" required />
                                 </div>
+                                <div class="form-group">
+                                    <label for="keterangan_{{ $key }}_bb">Keterangan BB
+                                        {{ $value }}</label>
+                                    <textarea wire:model.lazy="keterangan.{{ $key }}" class="form-control" id="keterangan_{{ $key }}_bb"
+                                        rows="3" required></textarea>
+                                </div>
                                 <div class="form-check mb-2">
                                     <input type="checkbox" class="form-check-input"
                                         wire:model="ekonomis_tinggi.{{ $key }}"
@@ -106,32 +112,31 @@
                                         for="input_{{ $key }}_cekEkonomis">Ekonomis
                                         Tinggi</label>
                                 </div>
-                                <div class="form-group">
-                                    <label for="input_{{ $key }}_satuan">Satuan</label>
-                                    <input type="text" wire:model.lazy="satuan.{{ $key }}"
-                                        class="form-control" id="input_{{ $key }}_satuan" required />
-                                </div>
-                                <div class="form-group">
-                                    <label for="input_{{ $key }}_kondisi">Kondisi</label>
-                                    <select wire:model="kondisi.{{ $key }}" class="form-control"
-                                        id="input_{{ $key }}_kondisi" required>
-                                        <option value="">-- Pilih --</option>
-                                        <option value="Baik">Baik</option>
-                                        <option value="Rusak Ringan">Rusak Ringan</option>
-                                        <option value="Rusak Berat">Rusak Berat</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="keterangan_{{ $key }}_sidang">Keterangan Sidang</label>
-                                    <textarea wire:model.lazy="ket_sidang.{{ $key }}" class="form-control"
-                                        id="keterangan_{{ $key }}_sidang" rows="2" required></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="keterangan_{{ $key }}_bb">Keterangan BB
-                                        {{ $value }}</label>
-                                    <textarea wire:model.lazy="keterangan.{{ $key }}" class="form-control"
-                                        id="keterangan_{{ $key }}_bb" rows="3" required></textarea>
-                                </div>
+                                @if (isset($ekonomis_tinggi[$key]))
+                                    @if ($ekonomis_tinggi[$key])
+                                        <div class="form-group">
+                                            <label for="input_{{ $key }}_satuan">Satuan</label>
+                                            <input type="text" wire:model.lazy="satuan.{{ $key }}"
+                                                class="form-control" id="input_{{ $key }}_satuan" required />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="input_{{ $key }}_kondisi">Kondisi</label>
+                                            <select wire:model="kondisi.{{ $key }}" class="form-control"
+                                                id="input_{{ $key }}_kondisi" required>
+                                                <option value="">-- Pilih --</option>
+                                                <option value="Baik">Baik</option>
+                                                <option value="Rusak Ringan">Rusak Ringan</option>
+                                                <option value="Rusak Berat">Rusak Berat</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="keterangan_{{ $key }}_sidang">Keterangan
+                                                Sidang</label>
+                                            <textarea wire:model.lazy="ket_sidang.{{ $key }}" class="form-control"
+                                                id="keterangan_{{ $key }}_sidang" rows="2" required></textarea>
+                                        </div>
+                                    @endif
+                                @endif
                                 <div class="form-group">
                                     <label for="upload_{{ $key }}_{{ $iteration }}">Foto Barang Bukti
                                         {{ $value }}
