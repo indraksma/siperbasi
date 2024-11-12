@@ -158,16 +158,6 @@
                             </div>
                         @endif
                         <div class="form-group">
-                            <label for="input_0_tglRegister">Tanggal Register</label>
-                            <input type="date" wire:model="tanggal_register" class="form-control"
-                                id="input_0_tglRegister" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="input_0_noReg">No Register</label>
-                            <input type="text" wire:model.lazy="no_register" class="form-control"
-                                id="input_0_noReg" required />
-                        </div>
-                        <div class="form-group">
                             <label for="input_0_bb">Nama Barang</label>
                             <input type="text" wire:model.lazy="nama_barang" class="form-control" id="input_0_bb"
                                 required />

@@ -300,9 +300,19 @@
                                 required>
                         </div>
                         <div class="form-group">
-                            <label for="tanggalSita">Tanggal</label>
+                            <label for="tanggalSita">Tanggal Penetapan Penyitaan</label>
                             <input type="date" wire:model="tanggal_penyitaan" class="form-control"
                                 id="tanggalSita" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="noReg">Nomor Register Perkara</label>
+                            <input type="text" wire:model.lazy="no_register" class="form-control" id="noReg"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tanggalReg">Tanggal Register Perkara</label>
+                            <input type="date" wire:model="tanggal_register" class="form-control" id="tanggalReg"
+                                required>
                         </div>
                         <div class="form-group">
                             <label for="pengadilan">Pengadilan</label>

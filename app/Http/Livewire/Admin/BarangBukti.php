@@ -88,8 +88,8 @@ class BarangBukti extends Component
         $this->foto = $bb->foto;
         $this->satuan = $bb->satuan;
         $this->ket_sidang = $bb->ket_sidang;
-        $this->no_register = $bb->no_register;
-        $this->tanggal_register = $bb->tanggal_register;
+        // $this->no_register = $bb->no_register;
+        // $this->tanggal_register = $bb->tanggal_register;
         $this->kondisi = $bb->kondisi;
         $this->ekonomis_tinggi = $bb->ekonomis_tinggi;
         $this->bb_id = $id;
@@ -141,8 +141,8 @@ class BarangBukti extends Component
                     'satuan' => $this->satuan,
                     'kondisi' => $this->kondisi,
                     'ekonomis_tinggi' => $this->ekonomis_tinggi,
-                    'no_register' => $this->no_register,
-                    'tanggal_register' => $this->tanggal_register,
+                    // 'no_register' => $this->no_register,
+                    // 'tanggal_register' => $this->tanggal_register,
                     'ket_sidang' => $this->ket_sidang,
                 ]);
             } else {
@@ -154,8 +154,8 @@ class BarangBukti extends Component
                     'satuan' => $this->satuan,
                     'kondisi' => $this->kondisi,
                     'ekonomis_tinggi' => $this->ekonomis_tinggi,
-                    'no_register' => $this->no_register,
-                    'tanggal_register' => $this->tanggal_register,
+                    // 'no_register' => $this->no_register,
+                    // 'tanggal_register' => $this->tanggal_register,
                     'ket_sidang' => $this->ket_sidang,
                 ]);
             }
@@ -190,8 +190,8 @@ class BarangBukti extends Component
                 'satuan' => $this->satuan,
                 'kondisi' => $this->kondisi,
                 'ekonomis_tinggi' => $this->ekonomis_tinggi,
-                'no_register' => $this->no_register,
-                'tanggal_register' => $this->tanggal_register,
+                // 'no_register' => $this->no_register,
+                // 'tanggal_register' => $this->tanggal_register,
                 'ket_sidang' => $this->ket_sidang,
                 'foto' => $uploadedfilename,
                 'status' => $status,

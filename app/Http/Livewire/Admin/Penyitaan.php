@@ -20,7 +20,7 @@ class Penyitaan extends Component
     use LivewireAlert, WithPagination, WithFileUploads;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['barbuk' => 'barbuk', 'putusan' => 'putusan', 'editPenyitaan' => 'editPenyitaan', 'deleteId' => 'deleteId'];
-    public $delete_id, $barang_bukti, $no_putusan, $tanggal_putusan, $pengadilan, $penuntut, $terpidana, $penyitaan_id, $status_putusan, $no_penyitaan, $tersangka, $penyidik, $pengadilan_sita, $penuntut_sita, $tanggal_penyitaan;
+    public $delete_id, $barang_bukti, $no_putusan, $tanggal_putusan, $pengadilan, $penuntut, $terpidana, $penyitaan_id, $status_putusan, $no_penyitaan, $tersangka, $penyidik, $pengadilan_sita, $penuntut_sita, $tanggal_penyitaan, $no_register, $tanggal_register;
     public Collection $inputs;
 
     public function mount()
@@ -40,7 +40,7 @@ class Penyitaan extends Component
 
     public function resetInputFields()
     {
-        $this->reset(['delete_id', 'barang_bukti', 'tanggal_putusan', 'no_putusan', 'pengadilan', 'penuntut', 'terpidana', 'penyitaan_id', 'status_putusan', 'no_penyitaan', 'tersangka', 'penyidik', 'pengadilan_sita', 'penuntut_sita', 'tanggal_penyitaan']);
+        $this->reset(['delete_id', 'barang_bukti', 'tanggal_putusan', 'no_putusan', 'pengadilan', 'penuntut', 'terpidana', 'penyitaan_id', 'status_putusan', 'no_penyitaan', 'tersangka', 'penyidik', 'pengadilan_sita', 'penuntut_sita', 'tanggal_penyitaan', 'no_register', 'tanggal_register']);
     }
 
     public function deleteId($id)
@@ -148,6 +148,8 @@ class Penyitaan extends Component
         $penyitaan = ModelsPenyitaan::where('id', $id)->first();
         $this->no_penyitaan = $penyitaan->no_penyitaan;
         $this->tanggal_penyitaan = $penyitaan->tanggal_penyitaan;
+        $this->no_register = $penyitaan->no_register;
+        $this->tanggal_register = $penyitaan->tanggal_register;
         $this->pengadilan_sita = $penyitaan->pengadilan;
         $this->penuntut_sita = $penyitaan->penuntut;
         $this->penyidik = $penyitaan->penyidik;
@@ -160,6 +162,8 @@ class Penyitaan extends Component
         $penyitaan->update([
             'tanggal_penyitaan' => $this->tanggal_penyitaan,
             'no_penyitaan' => $this->no_penyitaan,
+            'tanggal_register' => $this->tanggal_register,
+            'no_register' => $this->no_register,
             'pengadilan' => $this->pengadilan_sita,
             'penyidik' => $this->penyidik,
             'penuntut' => $this->penuntut_sita,

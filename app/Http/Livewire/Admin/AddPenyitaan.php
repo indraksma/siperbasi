@@ -74,6 +74,8 @@ class AddPenyitaan extends Component
             $sita = Penyitaan::create([
                 'tanggal_penyitaan' => $this->tanggal_penyitaan,
                 'no_penyitaan' => $this->no_penyitaan,
+                'no_register' => $this->no_register,
+                'tanggal_register' => $this->tanggal_register,
                 'pengadilan' => $this->pengadilan,
                 'penyidik' => $this->penyidik,
                 'penuntut' => $this->penuntut,
@@ -81,19 +83,30 @@ class AddPenyitaan extends Component
             ]);
 
             foreach ($this->nama_barang as $key => $input) {
-                BarangBukti::create([
-                    'penyitaan_id' => $sita->id,
-                    'nama_barang' => $input,
-                    'keterangan' => $this->keterangan[$key],
-                    'foto' => $uploadedfilename[$key],
-                    'status' => 0,
-                    'satuan' => $this->satuan[$key],
-                    'kondisi' => $this->kondisi[$key],
-                    'ekonomis_tinggi' => $this->ekonomis_tinggi[$key],
-                    'no_register' => $this->no_register[$key],
-                    'tanggal_register' => $this->tanggal_register[$key],
-                    'ket_sidang' => $this->ket_sidang[$key],
-                ]);
+                if (isset($this->ekonomis_tinggi[$key])) {
+                    $ekonomis_tinggi = $this->ekonomis_tinggi[$key];
+                    BarangBukti::create([
+                        'penyitaan_id' => $sita->id,
+                        'nama_barang' => $input,
+                        'keterangan' => $this->keterangan[$key],
+                        'foto' => $uploadedfilename[$key],
+                        'status' => 0,
+                        'satuan' => $this->satuan[$key],
+                        'kondisi' => $this->kondisi[$key],
+                        'ekonomis_tinggi' => $ekonomis_tinggi,
+                        'ket_sidang' => $this->ket_sidang[$key],
+                    ]);
+                } else {
+                    $ekonomis_tinggi = FALSE;
+                    BarangBukti::create([
+                        'penyitaan_id' => $sita->id,
+                        'nama_barang' => $input,
+                        'keterangan' => $this->keterangan[$key],
+                        'foto' => $uploadedfilename[$key],
+                        'status' => 0,
+                        'ekonomis_tinggi' => $ekonomis_tinggi,
+                    ]);
+                }
             }
 
             DB::commit();
@@ -106,6 +119,7 @@ class AddPenyitaan extends Component
             return redirect()->route('admin.penyitaan');
         } catch (Exception $e) {
             DB::rollBack();
+            dd($e);
             $this->alert('error', 'Data Gagal Ditambahkan!', [
                 'position' => 'center',
                 'timer' => 3000,

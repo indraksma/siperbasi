@@ -32,9 +32,19 @@
                                     required>
                             </div>
                             <div class="form-group">
-                                <label for="tanggalSita">Tanggal</label>
+                                <label for="tanggalSita">Tanggal Penetapan Penyitaan</label>
                                 <input type="date" wire:model="tanggal_penyitaan" class="form-control"
                                     id="tanggalSita" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="input_noReg">No Register</label>
+                                <input type="text" wire:model.lazy="no_register" class="form-control"
+                                    id="input_noReg" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="input_tglRegister">Tanggal Register</label>
+                                <input type="date" wire:model="tanggal_register" class="form-control"
+                                    id="input_tglRegister" required />
                             </div>
                             <div class="form-group">
                                 <label for="pengadilan">Pengadilan</label>
@@ -87,16 +97,6 @@
                                         {{ $value }}</button>
                                     <input type="text" wire:model.lazy="nama_barang.{{ $key }}"
                                         class="form-control" id="input_{{ $key }}_bb" required></input>
-                                </div>
-                                <div class="form-group">
-                                    <label for="input_{{ $key }}_noReg">No Register</label>
-                                    <input type="text" wire:model.lazy="no_register.{{ $key }}"
-                                        class="form-control" id="input_{{ $key }}_noReg" required />
-                                </div>
-                                <div class="form-group">
-                                    <label for="input_{{ $key }}_tglRegister">Tanggal Register</label>
-                                    <input type="date" wire:model="tanggal_register.{{ $key }}"
-                                        class="form-control" id="input_{{ $key }}_tglRegister" required />
                                 </div>
                                 <div class="form-group">
                                     <label for="keterangan_{{ $key }}_bb">Keterangan BB

@@ -35,6 +35,19 @@ class PenyitaanTable extends DataTableComponent
             Column::make("No Penetapan Penyitaan", "no_penyitaan")
                 ->searchable()
                 ->sortable(),
+            Column::make("Tanggal Register", "tanggal_register")
+                ->format(function ($row) {
+                    if ($row != NULL) {
+                        return \Carbon\Carbon::parse($row)->format('d-m-Y');
+                    } else {
+                        return "-";
+                    }
+                })
+                ->searchable()
+                ->sortable(),
+            Column::make("No Register", "no_register")
+                ->searchable()
+                ->sortable(),
             Column::make("Pengadilan", "pengadilan")
                 ->searchable()
                 ->sortable(),
