@@ -25,7 +25,7 @@ class BarbukExport implements FromCollection, WithHeadings, WithMapping, WithCus
      */
     public function collection()
     {
-        return BarangBukti::where('ekonomis_tinggi', 1)->whereBetween('tanggal_register', [$this->startDate, $this->endDate])->get();
+        return BarangBukti::join('penyitaans', 'penyitaans.id', '=', 'barang_buktis.penyitaan_id')->where('ekonomis_tinggi', 1)->whereBetween('penyitaans.tanggal_register', [$this->startDate, $this->endDate])->get();
     }
 
     /**
